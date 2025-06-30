@@ -1,69 +1,39 @@
-# React + TypeScript + Vite
+# Jobzan, the Job Hunter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a job application tracking application built with React, TypeScript, and Material-UI.
 
-Currently, two official plugins are available:
+**What makes this project unique is that it was built entirely by giving prompts to the Gemini CLI.**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+*   Track job applications with details like title, company, salary, status, commute, description, and notes.
+*   Manage employers with their contact information and location data.
+*   Add, edit, and delete both jobs and employers.
+*   View detailed information for each job and its associated employer.
+*   Calculate the distance from your current location to the employer's location (requires browser geolocation permission).
+*   Log current application data to the browser console for manual saving.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## How to Run
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1.  Clone this repository.
+2.  Navigate to the project directory in your terminal.
+3.  Install dependencies:
+    ```bash
+    npm install
+    ```
+4.  Start the development server:
+    ```bash
+    npm run dev
+    ```
+5.  Open your browser to `http://localhost:5173`.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Built With
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*   React
+*   TypeScript
+*   Vite
+*   Material-UI (MUI)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Development Process
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+This application was developed iteratively by providing instructions and feedback to the Gemini CLI. Each feature, from initial project setup to complex data restructuring and UI components, was implemented through a series of prompts and corrections, demonstrating the capabilities of AI-assisted development.
