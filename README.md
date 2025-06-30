@@ -47,8 +47,11 @@ We have successfully:
 *   Integrated Material-UI for the user interface.
 *   Added geolocation-based distance calculation for job locations.
 *   Implemented filtering, sorting, and searching for job applications.
-*   Updated the `README.md` to reflect the project's nature and its development process with Gemini CLI.
-*   Pushed all changes to your GitHub repository.
+*   Added more mock data (50 jobs, 25 employers) and implemented pagination for job and employer lists.
+*   Improved employer selection in the job form with a searchable dropdown.
+*   Added links for job descriptions and employer websites.
+*   Implemented internationalization (i18n) for UI components.
+*   Improved accessibility (a11y) with more descriptive aria-labels for buttons.
 
 ## Future Ideas
 
