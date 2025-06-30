@@ -46,6 +46,7 @@ We have successfully:
 *   Implemented a job application tracker with CRUD operations for jobs and employers.
 *   Integrated Material-UI for the user interface.
 *   Added geolocation-based distance calculation for job locations.
+*   Implemented filtering, sorting, and searching for job applications.
 *   Updated the `README.md` to reflect the project's nature and its development process with Gemini CLI.
 *   Pushed all changes to your GitHub repository.
 
@@ -53,7 +54,6 @@ We have successfully:
 
 Here are some suggestions for future enhancements:
 
-*   **Filtering, Sorting, and Search:** Add functionality to filter jobs by status, sort by salary or company, and search for specific keywords.
 *   **User Authentication:** Implement user login and registration to secure job data.
 *   **Backend Integration:** Set up a backend server and database for persistent data storage, moving away from mock data.
 *   **Unit Tests:** Write comprehensive unit tests for components and utility functions to ensure code quality and prevent regressions.
