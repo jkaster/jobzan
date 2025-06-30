@@ -15,6 +15,7 @@
 *   Links for job descriptions and employer websites.
 *   Internationalization (i18n) support for UI components.
 *   Improved accessibility (a11y) with more descriptive aria-labels for buttons.
+*   Code splitting using `React.lazy` and `Suspense` for improved performance.
 
 ### Changed
 

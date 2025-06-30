@@ -52,6 +52,7 @@ We have successfully:
 *   Added links for job descriptions and employer websites.
 *   Implemented internationalization (i18n) for UI components.
 *   Improved accessibility (a11y) with more descriptive aria-labels for buttons.
+*   Implemented code splitting using React.lazy and Suspense for improved performance.
 
 ## Future Ideas
 
