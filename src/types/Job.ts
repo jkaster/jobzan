@@ -7,4 +7,5 @@ export interface Job {
   commute: 'remote' | 'hybrid' | 'on-site';
   description: string;
   notes: string;
+  jobDescriptionLink?: string;
 }

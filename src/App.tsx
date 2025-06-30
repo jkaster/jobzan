@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useState, Suspense, lazy } from 'react';
 import useGeolocation from './hooks/useGeolocation';
 import useJobData from './hooks/useJobData';
 import Layout from './components/Layout';
-import { Typography, Button, Dialog, DialogTitle, DialogContent, Tabs, Tab, Box, TextField, MenuItem, FormControl, InputLabel, Select } from '@mui/material';
-import JobList from './components/JobList';
-import JobForm from './components/JobForm';
-import JobDetails from './components/JobDetails';
-import EmployerList from './components/EmployerList';
-import EmployerForm from './components/EmployerForm';
+import { Typography, Button, Dialog, DialogTitle, DialogContent, Tabs, Tab, Box, TextField, MenuItem, FormControl, InputLabel, Select, type SelectChangeEvent } from '@mui/material';
 import type { Job } from './types/Job';
 import type { Employer } from './types/Employer';
+import { useTranslation } from 'react-i18next';
+
+const JobList = lazy(() => import('./components/JobList'));
+const JobForm = lazy(() => import('./components/JobForm'));
+const JobDetails = lazy(() => import('./components/JobDetails'));
+const EmployerList = lazy(() => import('./components/EmployerList'));
+const EmployerForm = lazy(() => import('./components/EmployerForm'));
 
 function App() {
   const { jobs, employers, addJob, updateJob, addEmployer, updateEmployer, deleteEmployer } = useJobData();
@@ -19,6 +21,15 @@ function App() {
   const [selectedEmployer, setSelectedEmployer] = useState<Employer | undefined>(undefined);
   const [currentTab, setCurrentTab] = useState(0); // 0 for Jobs, 1 for Employers
   const { userLocation } = useGeolocation();
+  const { t } = useTranslation();
+
+  // Pagination state for Jobs
+  const [jobsPage, setJobsPage] = useState(0);
+  const [jobsRowsPerPage, setJobsRowsPerPage] = useState(10);
+
+  // Pagination state for Employers
+  const [employersPage, setEmployersPage] = useState(0);
+  const [employersRowsPerPage, setEmployersRowsPerPage] = useState(10);
 
   // State for filtering, sorting, and searching
   const [filterStatus, setFilterStatus] = useState<string>('all');
@@ -84,6 +95,29 @@ function App() {
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
+    // Reset pagination when switching tabs
+    setJobsPage(0);
+    setEmployersPage(0);
+  };
+
+  // Handlers for Jobs pagination
+  const handleChangeJobsPage = (_event: unknown, newPage: number) => {
+    setJobsPage(newPage);
+  };
+
+  const handleChangeJobsRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setJobsRowsPerPage(parseInt(event.target.value, 10));
+    setJobsPage(0);
+  };
+
+  // Handlers for Employers pagination
+  const handleChangeEmployersPage = (_event: unknown, newPage: number) => {
+    setEmployersPage(newPage);
+  };
+
+  const handleChangeEmployersRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmployersRowsPerPage(parseInt(event.target.value, 10));
+    setEmployersPage(0);
   };
 
   // Filtering, Sorting, and Searching Logic
@@ -125,117 +159,143 @@ function App() {
   return (
     <Layout>
       <Typography variant="h4" component="h1" gutterBottom>
-        Jobzan, the job hunter
+        {t('app_title')}
       </Typography>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange} aria-label="basic tabs example">
-          <Tab label="Jobs" />
-          <Tab label="Employers" />
+          <Tab label={t('jobs')} />
+          <Tab label={t('employers')} />
         </Tabs>
       </Box>
 
       {currentTab === 0 && (
         <Box sx={{ mt: 2 }}>
           <Button variant="contained" color="primary" onClick={() => handleOpenJobForm()}>
-            Add Job
+            {t('add_job')}
           </Button>
           <Button variant="contained" color="secondary" onClick={handleLogData} sx={{ ml: 2 }}>
-            Log Data to Console
+            {t('log_data_to_console')}
           </Button>
 
           <Box sx={{ mt: 2, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             <TextField
-              label="Search"
+              label={t('search')}
               variant="outlined"
               value={searchQuery}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
               sx={{ width: 200 }}
             />
             <FormControl sx={{ width: 150 }}>
-              <InputLabel id="filter-status-label">Filter Status</InputLabel>
+              <InputLabel id="filter-status-label">{t('filter_status')}</InputLabel>
               <Select
                 labelId="filter-status-label"
                 value={filterStatus}
-                label="Filter Status"
+                label={t('filter_status')}
                 onChange={(e) => setFilterStatus(e.target.value as string)}
               >
-                <MenuItem value="all">All Statuses</MenuItem>
-                <MenuItem value="lead">Lead</MenuItem>
-                <MenuItem value="applied">Applied</MenuItem>
-                <MenuItem value="interview">Interview</MenuItem>
-                <MenuItem value="offer">Offer</MenuItem>
-                <MenuItem value="rejected">Rejected</MenuItem>
+                <MenuItem value="all">{t('all_statuses')}</MenuItem>
+                <MenuItem value="lead">{t('lead')}</MenuItem>
+                <MenuItem value="applied">{t('applied')}</MenuItem>
+                <MenuItem value="interview">{t('interview')}</MenuItem>
+                <MenuItem value="offer">{t('offer')}</MenuItem>
+                <MenuItem value="rejected">{t('rejected')}</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ width: 150 }}>
-              <InputLabel id="filter-commute-label">Filter Commute</InputLabel>
+              <InputLabel id="filter-commute-label">{t('filter_commute')}</InputLabel>
               <Select
                 labelId="filter-commute-label"
                 value={filterCommute}
-                label="Filter Commute"
+                label={t('filter_commute')}
                 onChange={(e) => setFilterCommute(e.target.value as string)}
               >
-                <MenuItem value="all">All Commutes</MenuItem>
-                <MenuItem value="remote">Remote</MenuItem>
-                <MenuItem value="hybrid">Hybrid</MenuItem>
-                <MenuItem value="on-site">On-site</MenuItem>
+                <MenuItem value="all">{t('all_commutes')}</MenuItem>
+                <MenuItem value="remote">{t('remote')}</MenuItem>
+                <MenuItem value="hybrid">{t('hybrid')}</MenuItem>
+                <MenuItem value="on-site">{t('on_site')}</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ width: 150 }}>
-              <InputLabel id="sort-by-label">Sort By</InputLabel>
+              <InputLabel id="sort-by-label">{t('sort_by')}</InputLabel>
               <Select
                 labelId="sort-by-label"
                 value={sortField}
-                label="Sort By"
+                label={t('sort_by')}
                 onChange={(e) => setSortField(e.target.value as keyof Job | 'employerName')}
               >
-                <MenuItem value="title">Title</MenuItem>
-                <MenuItem value="employerName">Employer</MenuItem>
-                <MenuItem value="salary">Salary</MenuItem>
-                <MenuItem value="status">Status</MenuItem>
-                <MenuItem value="commute">Commute</MenuItem>
+                <MenuItem value="title">{t('title')}</MenuItem>
+                <MenuItem value="employerName">{t('employer')}</MenuItem>
+                <MenuItem value="salary">{t('salary')}</MenuItem>
+                <MenuItem value="status">{t('status')}</MenuItem>
+                <MenuItem value="commute">{t('commute')}</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ width: 150 }}>
-              <InputLabel id="sort-order-label">Sort Order</InputLabel>
+              <InputLabel id="sort-order-label">{t('sort_order')}</InputLabel>
               <Select
                 labelId="sort-order-label"
                 value={sortOrder}
-                label="Sort Order"
-                onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+                label={t('sort_order')}
+                onChange={(e: SelectChangeEvent) => setSortOrder(e.target.value as 'asc' | 'desc')}
               >
-                <MenuItem value="asc">Ascending</MenuItem>
-                <MenuItem value="desc">Descending</MenuItem>
+                <MenuItem value="asc">{t('ascending')}</MenuItem>
+                <MenuItem value="desc">{t('descending')}</MenuItem>
               </Select>
             </FormControl>
           </Box>
 
-          <JobList jobs={sortedJobs} onEdit={handleOpenJobForm} onViewDetails={handleViewJobDetails} userLocation={userLocation} employers={employers} />
+          <JobList 
+            jobs={sortedJobs.slice(jobsPage * jobsRowsPerPage, jobsPage * jobsRowsPerPage + jobsRowsPerPage)}
+            onEdit={handleOpenJobForm}
+            onViewDetails={handleViewJobDetails}
+            userLocation={userLocation}
+            employers={employers}
+            page={jobsPage}
+            rowsPerPage={jobsRowsPerPage}
+            onPageChange={handleChangeJobsPage}
+            onRowsPerPageChange={handleChangeJobsRowsPerPage}
+            count={sortedJobs.length}
+          />
         </Box>
       )}
 
       {currentTab === 1 && (
         <Box sx={{ mt: 2 }}>
           <Button variant="contained" color="primary" onClick={() => handleOpenEmployerForm()}>
-            Add Employer
+            {t('add_employer')}
           </Button>
-          <EmployerList employers={employers} onEdit={handleOpenEmployerForm} onDelete={handleDeleteEmployer} />
+          <Suspense fallback={<div>Loading Employers...</div>}>
+            <EmployerList 
+              employers={employers.slice(employersPage * employersRowsPerPage, employersPage * employersRowsPerPage + employersRowsPerPage)}
+              onEdit={handleOpenEmployerForm}
+              onDelete={handleDeleteEmployer}
+              page={employersPage}
+              rowsPerPage={employersRowsPerPage}
+              onPageChange={handleChangeEmployersPage}
+              onRowsPerPageChange={handleChangeEmployersRowsPerPage}
+              count={employers.length}
+            />
+          </Suspense>
         </Box>
       )}
 
-      <Dialog open={open} onClose={handleCloseDialog}>
-        <DialogTitle>{selectedJob ? 'Edit Job' : selectedEmployer ? 'Edit Employer' : 'Add New'}</DialogTitle>
+      <Dialog open={open} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">{selectedJob ? t('edit_job') : selectedEmployer ? t('edit_employer') : t('add_new')}</DialogTitle>
         <DialogContent>
-          {currentTab === 0 && <JobForm job={selectedJob} onSubmit={handleSubmitJob} employers={employers} />}
-          {currentTab === 1 && <EmployerForm employer={selectedEmployer} onSubmit={handleSubmitEmployer} />}
+          <Suspense fallback={<div>Loading Form...</div>}>
+            {currentTab === 0 && <JobForm job={selectedJob} onSubmit={handleSubmitJob} employers={employers} />}
+            {currentTab === 1 && <EmployerForm employer={selectedEmployer} onSubmit={handleSubmitEmployer} />}
+          </Suspense>
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openDetails} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-        <DialogTitle>Job Details</DialogTitle>
+      <Dialog open={openDetails} onClose={handleCloseDialog} maxWidth="md" fullWidth aria-labelledby="details-dialog-title">
+        <DialogTitle id="details-dialog-title">{t('job_details')}</DialogTitle>
         <DialogContent>
-          {selectedJob && <JobDetails job={selectedJob} employers={employers} />}
+          <Suspense fallback={<div>Loading Details...</div>}>
+            {selectedJob && <JobDetails job={selectedJob} employers={employers} />}
+          </Suspense>
         </DialogContent>
       </Dialog>
     </Layout>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { Job } from '../types/Job';
 import type { Employer } from '../types/Employer';
-import { Button, TextField, MenuItem, Box } from '@mui/material';
+import { Button, TextField, MenuItem, Box, Autocomplete } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface JobFormProps {
   job?: Job;
@@ -9,7 +10,8 @@ interface JobFormProps {
   employers: Employer[];
 }
 
-const JobForm: React.FC<JobFormProps> = ({ job, onSubmit, employers }) => {
+const JobForm = ({ job, onSubmit, employers }: JobFormProps) => {
+  const { t } = useTranslation();
   const titleInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<Job>({
     id: job?.id || '',
@@ -20,6 +22,7 @@ const JobForm: React.FC<JobFormProps> = ({ job, onSubmit, employers }) => {
     commute: job?.commute || 'remote',
     description: job?.description || '',
     notes: job?.notes || '',
+    jobDescriptionLink: job?.jobDescriptionLink || '',
   });
 
   useEffect(() => {
@@ -43,31 +46,34 @@ const JobForm: React.FC<JobFormProps> = ({ job, onSubmit, employers }) => {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-      <TextField name="title" label="Title" value={formData.title} onChange={handleChange} fullWidth margin="normal" inputRef={titleInputRef} />
-      <TextField name="employerId" label="Employer" select value={formData.employerId} onChange={handleChange} fullWidth margin="normal">
-        {employers.map((employer: Employer) => (
-          <MenuItem key={employer.id} value={employer.id}>
-            {employer.name}
-          </MenuItem>
-        ))}
+      <TextField name="title" label={t('title')} value={formData.title} onChange={handleChange} fullWidth margin="normal" inputRef={titleInputRef} />
+      <Autocomplete
+        options={employers}
+        getOptionLabel={(option: Employer) => option.name}
+        value={employers.find(emp => emp.id === formData.employerId) || null}
+        onChange={(_event: React.SyntheticEvent, newValue: Employer | null) => {
+          setFormData({ ...formData, employerId: newValue ? newValue.id : '' });
+        }}
+        renderInput={(params) => <TextField {...params} label={t('employer')} fullWidth margin="normal" />}
+      />
+      <TextField name="salary" label={t('salary')} type="number" value={formData.salary} onChange={handleChange} fullWidth margin="normal" />
+      <TextField name="status" label={t('status')} select value={formData.status} onChange={handleChange} fullWidth margin="normal">
+        <MenuItem value="lead">{t('lead')}</MenuItem>
+        <MenuItem value="applied">{t('applied')}</MenuItem>
+        <MenuItem value="interview">{t('interview')}</MenuItem>
+        <MenuItem value="offer">{t('offer')}</MenuItem>
+        <MenuItem value="rejected">{t('rejected')}</MenuItem>
       </TextField>
-      <TextField name="salary" label="Salary" type="number" value={formData.salary} onChange={handleChange} fullWidth margin="normal" />
-      <TextField name="status" label="Status" select value={formData.status} onChange={handleChange} fullWidth margin="normal">
-        <MenuItem value="lead">Lead</MenuItem>
-        <MenuItem value="applied">Applied</MenuItem>
-        <MenuItem value="interview">Interview</MenuItem>
-        <MenuItem value="offer">Offer</MenuItem>
-        <MenuItem value="rejected">Rejected</MenuItem>
+      <TextField name="commute" label={t('commute')} select value={formData.commute} onChange={handleChange} fullWidth margin="normal">
+        <MenuItem value="remote">{t('remote')}</MenuItem>
+        <MenuItem value="hybrid">{t('hybrid')}</MenuItem>
+        <MenuItem value="on-site">{t('on_site')}</MenuItem>
       </TextField>
-      <TextField name="commute" label="Commute" select value={formData.commute} onChange={handleChange} fullWidth margin="normal">
-        <MenuItem value="remote">Remote</MenuItem>
-        <MenuItem value="hybrid">Hybrid</MenuItem>
-        <MenuItem value="on-site">On-site</MenuItem>
-      </TextField>
-      <TextField name="description" label="Description" value={formData.description} onChange={handleChange} fullWidth margin="normal" multiline rows={4} />
-      <TextField name="notes" label="Notes" value={formData.notes} onChange={handleChange} fullWidth margin="normal" multiline rows={4} />
+      <TextField name="description" label={t('description')} value={formData.description} onChange={handleChange} fullWidth margin="normal" multiline rows={4} />
+      <TextField name="notes" label={t('notes')} value={formData.notes} onChange={handleChange} fullWidth margin="normal" multiline rows={4} />
+      <TextField name="jobDescriptionLink" label={t('job')} value={formData.jobDescriptionLink} onChange={handleChange} fullWidth margin="normal" />
       <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-        {job ? 'Update Job' : 'Add Job'}
+        {job ? t('update_job') : t('add_job')}
       </Button>
     </Box>
   );

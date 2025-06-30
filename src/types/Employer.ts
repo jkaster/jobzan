@@ -9,4 +9,5 @@ export interface Employer {
   contactName: string;
   contactPhone: string;
   contactEmail: string;
+  website?: string;
 }

@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Employer } from '../types/Employer';
 import { Button, TextField, Box } from '@mui/material';
 
@@ -8,7 +9,8 @@ interface EmployerFormProps {
   onSubmit: (employer: Employer) => void;
 }
 
-const EmployerForm: React.FC<EmployerFormProps> = ({ employer, onSubmit }) => {
+const EmployerForm = ({ employer, onSubmit }: EmployerFormProps) => {
+  const { t } = useTranslation();
   const nameInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<Employer>({
     id: employer?.id || '',
@@ -51,8 +53,9 @@ const EmployerForm: React.FC<EmployerFormProps> = ({ employer, onSubmit }) => {
       <TextField name="contactName" label="Contact Name" value={formData.contactName} onChange={handleChange} fullWidth margin="normal" />
       <TextField name="contactPhone" label="Contact Phone" value={formData.contactPhone} onChange={handleChange} fullWidth margin="normal" />
       <TextField name="contactEmail" label="Contact Email" value={formData.contactEmail} onChange={handleChange} fullWidth margin="normal" />
+      <TextField name="website" label="Website" value={formData.website} onChange={handleChange} fullWidth margin="normal" />
       <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-        {employer ? 'Update Employer' : 'Add Employer'}
+        {employer ? t('update_employer') : t('add_employer')}
       </Button>
     </Box>
   );
