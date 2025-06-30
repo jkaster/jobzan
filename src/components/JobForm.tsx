@@ -1,16 +1,15 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import type { Job } from '../types/Job';
 import type { Employer } from '../types/Employer';
-import { mockEmployers } from '../mockData';
 import { Button, TextField, MenuItem, Box } from '@mui/material';
 
 interface JobFormProps {
   job?: Job;
   onSubmit: (job: Job) => void;
+  employers: Employer[];
 }
 
-const JobForm: React.FC<JobFormProps> = ({ job, onSubmit }) => {
+const JobForm: React.FC<JobFormProps> = ({ job, onSubmit, employers }) => {
   const titleInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<Job>({
     id: job?.id || '',
@@ -46,7 +45,7 @@ const JobForm: React.FC<JobFormProps> = ({ job, onSubmit }) => {
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
       <TextField name="title" label="Title" value={formData.title} onChange={handleChange} fullWidth margin="normal" inputRef={titleInputRef} />
       <TextField name="employerId" label="Employer" select value={formData.employerId} onChange={handleChange} fullWidth margin="normal">
-        {mockEmployers.map((employer) => (
+        {employers.map((employer: Employer) => (
           <MenuItem key={employer.id} value={employer.id}>
             {employer.name}
           </MenuItem>

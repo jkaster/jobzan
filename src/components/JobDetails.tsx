@@ -2,16 +2,16 @@
 import React, { useEffect, useRef } from 'react';
 import type { Job } from '../types/Job';
 import type { Employer } from '../types/Employer';
-import { mockEmployers } from '../mockData';
 import { Typography, Box, Paper } from '@mui/material';
 
 interface JobDetailsProps {
   job: Job;
+  employers: Employer[];
 }
 
-const JobDetails: React.FC<JobDetailsProps> = ({ job }) => {
+const JobDetails: React.FC<JobDetailsProps> = ({ job, employers }) => {
   const detailsRef = useRef<HTMLDivElement>(null);
-  const employer = mockEmployers.find(emp => emp.id === job.employerId);
+  const employer = employers.find(emp => emp.id === job.employerId);
 
   useEffect(() => {
     if (detailsRef.current) {

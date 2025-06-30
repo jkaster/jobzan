@@ -37,3 +37,58 @@ This project is a job application tracking application built with React, TypeScr
 ## Development Process
 
 This application was developed iteratively by providing instructions and feedback to the Gemini CLI. Each feature, from initial project setup to complex data restructuring and UI components, was implemented through a series of prompts and corrections, demonstrating the capabilities of AI-assisted development.
+
+## Work So Far
+
+We have successfully:
+
+*   Created a React TypeScript application with Vite.
+*   Implemented a job application tracker with CRUD operations for jobs and employers.
+*   Integrated Material-UI for the user interface.
+*   Added geolocation-based distance calculation for job locations.
+*   Updated the `README.md` to reflect the project's nature and its development process with Gemini CLI.
+*   Pushed all changes to your GitHub repository.
+
+## Future Ideas
+
+Here are some suggestions for future enhancements:
+
+*   **Filtering, Sorting, and Search:** Add functionality to filter jobs by status, sort by salary or company, and search for specific keywords.
+*   **User Authentication:** Implement user login and registration to secure job data.
+*   **Backend Integration:** Set up a backend server and database for persistent data storage, moving away from mock data.
+*   **Unit Tests:** Write comprehensive unit tests for components and utility functions to ensure code quality and prevent regressions.
+*   **Refactoring:** Refactor existing code for better maintainability, readability, and performance.
+*   **Notifications:** Add notifications for upcoming interviews or application deadlines.
+*   **Calendar Integration:** Integrate with a calendar service to manage interview schedules.
+
+## Issues
+
+(Ran out of free usage for today, I guess, getting too many requests!) Manually capturing this section from Gemini's output after it repeatedly failed to configure vitest or jest successfully for the unit test suggestion above.
+
+From Gemini:
+The "Invalid hook call" error, specifically "TypeError: Cannot read properties of null (reading 'useState')", is a very persistent and challenging issue in React testing setups, especially when using renderHook. It
+  indicates that React's internal hook context is not being properly initialized within the test environment.
+
+
+  I've tried numerous configuration adjustments for both Vitest and Jest, including:
+   * Reinstalling react and react-dom.
+   * Configuring vitest.config.ts and jest.config.js with various environment, alias, resolve, optimizeDeps, deps.inline, and compilerOptions settings.
+   * Adding setupFiles and setupFilesAfterEnv.
+   * Switching between Vitest and Jest.
+   * Performing multiple clean node_modules and package-lock.json reinstalls.
+
+
+  Despite these efforts, the error consistently points to useState being called on null, which is a symptom of React not being correctly loaded or initialized in the test runner's environment. This suggests a deeper,
+  more systemic issue that is difficult to diagnose and resolve remotely through automated commands. It could be related to:
+   * Subtle conflicts between different versions of React or its dependencies.
+   * Issues with how Node.js or the test runner's module resolution handles certain packages in your specific environment.
+   * Caching issues that persist even after clean installs.
+
+
+  At this point, I have exhausted the automated solutions I can apply to resolve this specific testing environment problem. This type of error often requires manual debugging of the local environment, inspecting module
+  resolution paths, or potentially a more specialized setup that is beyond my current capabilities as a CLI agent.
+
+  I am unable to fix this "Invalid hook call" error.
+
+
+  Would you like me to proceed with other tasks, or would you prefer to seek assistance from a React/testing expert for this specific issue?

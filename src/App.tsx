@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import useGeolocation from './hooks/useGeolocation';
+import useJobData from './hooks/useJobData';
 import Layout from './components/Layout';
 import { Typography, Button, Dialog, DialogTitle, DialogContent, Tabs, Tab, Box } from '@mui/material';
 import JobList from './components/JobList';
@@ -6,35 +8,17 @@ import JobForm from './components/JobForm';
 import JobDetails from './components/JobDetails';
 import EmployerList from './components/EmployerList';
 import EmployerForm from './components/EmployerForm';
-import { mockJobs, mockEmployers } from './mockData';
 import type { Job } from './types/Job';
 import type { Employer } from './types/Employer';
 
 function App() {
-  const [jobs, setJobs] = useState<Job[]>(mockJobs);
-  const [employers, setEmployers] = useState<Employer[]>(mockEmployers);
+  const { jobs, employers, addJob, updateJob, addEmployer, updateEmployer, deleteEmployer } = useJobData();
   const [open, setOpen] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | undefined>(undefined);
   const [selectedEmployer, setSelectedEmployer] = useState<Employer | undefined>(undefined);
   const [currentTab, setCurrentTab] = useState(0); // 0 for Jobs, 1 for Employers
-  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
-
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        (error) => {
-          console.error("Error getting user location:", error);
-        }
-      );
-    }
-  }, []);
+  const { userLocation } = useGeolocation();
 
   const handleLogData = () => {
     console.log('--- Current Employers Data ---');
@@ -69,30 +53,29 @@ function App() {
 
   const handleSubmitJob = (job: Job) => {
     if (job.id) {
-      setJobs(jobs.map((j) => (j.id === job.id ? job : j)));
+      updateJob(job);
     } else {
-      setJobs([...jobs, { ...job, id: new Date().toISOString() }]);
+      addJob(job);
     }
     handleCloseDialog();
   };
 
   const handleSubmitEmployer = (employer: Employer) => {
     if (employer.id) {
-      setEmployers(employers.map((e) => (e.id === employer.id ? employer : e)));
+      updateEmployer(employer);
     } else {
-      setEmployers([...employers, { ...employer, id: new Date().toISOString() }]);
+      addEmployer(employer);
     }
     handleCloseDialog();
   };
 
   const handleDeleteEmployer = (id: string) => {
     if (window.confirm('Are you sure you want to delete this employer and all associated jobs?')) {
-      setEmployers(employers.filter((e) => e.id !== id));
-      setJobs(jobs.filter((job) => job.employerId !== id));
+      deleteEmployer(id);
     }
   };
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
   };
 
@@ -133,7 +116,7 @@ function App() {
       <Dialog open={open} onClose={handleCloseDialog}>
         <DialogTitle>{selectedJob ? 'Edit Job' : selectedEmployer ? 'Edit Employer' : 'Add New'}</DialogTitle>
         <DialogContent>
-          {currentTab === 0 && <JobForm job={selectedJob} onSubmit={handleSubmitJob} />}
+          {currentTab === 0 && <JobForm job={selectedJob} onSubmit={handleSubmitJob} employers={employers} />}
           {currentTab === 1 && <EmployerForm employer={selectedEmployer} onSubmit={handleSubmitEmployer} />}
         </DialogContent>
       </Dialog>
@@ -141,7 +124,7 @@ function App() {
       <Dialog open={openDetails} onClose={handleCloseDialog} maxWidth="md" fullWidth>
         <DialogTitle>Job Details</DialogTitle>
         <DialogContent>
-          {selectedJob && <JobDetails job={selectedJob} />}
+          {selectedJob && <JobDetails job={selectedJob} employers={employers} />}
         </DialogContent>
       </Dialog>
     </Layout>
