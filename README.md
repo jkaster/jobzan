@@ -6,33 +6,37 @@ This project is a job application tracking application built with React, TypeScr
 
 ## Features
 
-*   Track job applications with details like title, company, salary, status, commute, description, and notes.
-*   Manage employers with their contact information and location data.
-*   Add, edit, and delete both jobs and employers.
-*   View detailed information for each job and its associated employer.
-*   Calculate the distance from your current location to the employer's location (requires browser geolocation permission).
-*   Log current application data to the browser console for manual saving.
+- Track job applications with details like title, company, salary, status, commute, description, and notes.
+- Manage employers with their contact information and location data.
+- Add, edit, and delete both jobs and employers.
+- View detailed information for each job and its associated employer.
+- Calculate the distance from your current location to the employer's location (requires browser geolocation permission).
+- Log current application data to the browser console for manual saving.
 
 ## How to Run
 
 1.  Clone this repository.
 2.  Navigate to the project directory in your terminal.
 3.  Install dependencies:
+
     ```bash
     npm install
     ```
+
 4.  Start the development server:
+
     ```bash
     npm run dev
     ```
+
 5.  Open your browser to `http://localhost:5173`.
 
 ## Built With
 
-*   React
-*   TypeScript
-*   Vite
-*   Material-UI (MUI)
+- React
+- TypeScript
+- Vite
+- Material-UI (MUI)
 
 ## Development Process
 
@@ -42,28 +46,28 @@ This application was developed iteratively by providing instructions and feedbac
 
 We have successfully:
 
-*   Created a React TypeScript application with Vite.
-*   Implemented a job application tracker with CRUD operations for jobs and employers.
-*   Integrated Material-UI for the user interface.
-*   Added geolocation-based distance calculation for job locations.
-*   Implemented filtering, sorting, and searching for job applications.
-*   Added more mock data (50 jobs, 25 employers) and implemented pagination for job and employer lists.
-*   Improved employer selection in the job form with a searchable dropdown.
-*   Added links for job descriptions and employer websites.
-*   Implemented internationalization (i18n) for UI components.
-*   Improved accessibility (a11y) with more descriptive aria-labels for buttons.
-*   Implemented code splitting using React.lazy and Suspense for improved performance.
+- Created a React TypeScript application with Vite.
+- Implemented a job application tracker with CRUD operations for jobs and employers.
+- Integrated Material-UI for the user interface.
+- Added geolocation-based distance calculation for job locations.
+- Implemented filtering, sorting, and searching for job applications.
+- Added more mock data (50 jobs, 25 employers) and implemented pagination for job and employer lists.
+- Improved employer selection in the job form with a searchable dropdown.
+- Added links for job descriptions and employer websites.
+- Implemented internationalization (i18n) for UI components.
+- Improved accessibility (a11y) with more descriptive aria-labels for buttons.
+- Implemented code splitting using React.lazy and Suspense for improved performance.
 
 ## Future Ideas
 
 Here are some suggestions for future enhancements:
 
-*   **User Authentication:** Implement user login and registration to secure job data.
-*   **Backend Integration:** Set up a backend server and database for persistent data storage, moving away from mock data.
-*   **Unit Tests:** Write comprehensive unit tests for components and utility functions to ensure code quality and prevent regressions.
-*   **Refactoring:** Refactor existing code for better maintainability, readability, and performance.
-*   **Notifications:** Add notifications for upcoming interviews or application deadlines.
-*   **Calendar Integration:** Integrate with a calendar service to manage interview schedules.
+-   **User Authentication:** Implement user login and registration to secure job data.
+-   **Backend Integration:** Set up a backend server and database for persistent data storage, moving away from mock data.
+-   **Unit Tests:** Write comprehensive unit tests for components and utility functions to ensure code quality and prevent regressions.
+-   **Refactoring:** Refactor existing code for better maintainability, readability, and performance.
+-   **Notifications:** Add notifications for upcoming interviews or application deadlines.
+-   **Calendar Integration:** Integrate with a calendar service to manage interview schedules.
 
 ## Issues
 
