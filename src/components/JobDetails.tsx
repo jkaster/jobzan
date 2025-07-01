@@ -29,8 +29,8 @@ const JobDetails = ({ job, employers }: JobDetailsProps) => {
       <Paper elevation={1} sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">{t('employer_details')}</Typography>
         <Typography><strong>{t('company_name')}:</strong> {employer.name}</Typography>
-        <Typography><strong>{t('latitude')}:</strong> {employer.location.latitude}</Typography>
-        <Typography><strong>{t('longitude')}:</strong> {employer.location.longitude}</Typography>
+        <Typography><strong>{t('latitude')}:</strong> {employer.latitude}</Typography>
+        <Typography><strong>{t('longitude')}:</strong> {employer.longitude}</Typography>
         <Typography><strong>{t('contact_name')}:</strong> {employer.contactName}</Typography>
         <Typography><strong>{t('contact_phone')}:</strong> {employer.contactPhone}</Typography>
         <Typography><strong>{t('contact_email')}:</strong> {employer.contactEmail}</Typography>

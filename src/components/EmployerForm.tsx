@@ -15,10 +15,12 @@ const EmployerForm = ({ employer, onSubmit }: EmployerFormProps) => {
   const [formData, setFormData] = useState<Employer>({
     id: employer?.id || '',
     name: employer?.name || '',
-    location: employer?.location || { latitude: 0, longitude: 0 },
+    latitude: employer?.latitude || 0,
+    longitude: employer?.longitude || 0,
     contactName: employer?.contactName || '',
     contactPhone: employer?.contactPhone || '',
     contactEmail: employer?.contactEmail || '',
+    website: employer?.website || '',
   });
 
   useEffect(() => {
@@ -32,12 +34,7 @@ const EmployerForm = ({ employer, onSubmit }: EmployerFormProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, location: { ...formData.location, [name]: parseFloat(value) } });
+    setFormData({ ...formData, [name]: name === 'latitude' || name === 'longitude' ? parseFloat(value) : value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -48,8 +45,8 @@ const EmployerForm = ({ employer, onSubmit }: EmployerFormProps) => {
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
       <TextField name="name" label="Company Name" value={formData.name} onChange={handleChange} fullWidth margin="normal" inputRef={nameInputRef} />
-      <TextField name="latitude" label="Latitude" type="number" value={formData.location.latitude} onChange={handleLocationChange} fullWidth margin="normal" />
-      <TextField name="longitude" label="Longitude" type="number" value={formData.location.longitude} onChange={handleLocationChange} fullWidth margin="normal" />
+      <TextField name="latitude" label="Latitude" type="number" value={formData.latitude} onChange={handleChange} fullWidth margin="normal" />
+      <TextField name="longitude" label="Longitude" type="number" value={formData.longitude} onChange={handleChange} fullWidth margin="normal" />
       <TextField name="contactName" label="Contact Name" value={formData.contactName} onChange={handleChange} fullWidth margin="normal" />
       <TextField name="contactPhone" label="Contact Phone" value={formData.contactPhone} onChange={handleChange} fullWidth margin="normal" />
       <TextField name="contactEmail" label="Contact Email" value={formData.contactEmail} onChange={handleChange} fullWidth margin="normal" />

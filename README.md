@@ -20,13 +20,13 @@ This project is a job application tracking application built with React, TypeScr
 3.  Install dependencies:
 
     ```bash
-    npm install
+    pnpm install
     ```
 
 4.  Start the development server:
 
     ```bash
-    npm run dev
+    pnpm dev
     ```
 
 5.  Open your browser to `http://localhost:5173`.
@@ -37,6 +37,7 @@ This project is a job application tracking application built with React, TypeScr
 - TypeScript
 - Vite
 - Material-UI (MUI)
+- pnpm
 
 ## Development Process
 

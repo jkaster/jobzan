@@ -3,15 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
+  
   "scripts": {
     "dev": "vite",
-    "build": "npm run build --prefix packages/jobtypes && tsc -b && vite build",
+    "build": "pnpm --filter jobtypes build && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start:backend": "npm run build --prefix server && npm start --prefix server"
+    "start:backend": "pnpm --filter server build && pnpm --filter server start"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

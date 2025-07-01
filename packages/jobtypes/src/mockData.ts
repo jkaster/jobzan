@@ -24,10 +24,8 @@ export const mockEmployers: Employer[] = Array.from({ length: 25 }).map((_, i) =
   return {
     id: `emp${i + 1}`,
     name,
-    location: {
-      latitude: parseFloat((Math.random() * (90 - -90) + -90).toFixed(4)),
-      longitude: parseFloat((Math.random() * (180 - -180) + -180).toFixed(4)),
-    },
+    latitude: parseFloat((Math.random() * (90 - -90) + -90).toFixed(4)),
+    longitude: parseFloat((Math.random() * (180 - -180) + -180).toFixed(4)),
     contactName,
     contactPhone: `+1-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
     contactEmail: `${contactName.toLowerCase().replace(/ /g, '.')}@${name.toLowerCase().replace(/ /g, '').replace(/\./g, '').replace(/inc|llc|corp/g, '')}.com`,

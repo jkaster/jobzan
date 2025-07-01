@@ -1,5 +1,16 @@
 # Changelog
 
+## 2025-07-01
+
+### Fixed
+
+- Corrected `Employer` interface and `mockData.ts` to flatten `latitude` and `longitude` properties.
+- Updated `EmployerForm.tsx` and `JobDetails.tsx` to reflect flattened `Employer` interface.
+
+### Changed
+
+- Switched package manager from npm to pnpm.
+
 ## 2025-06-30
 
 ### Added
