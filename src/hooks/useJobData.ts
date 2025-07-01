@@ -1,33 +1,126 @@
+import { useState, useEffect } from 'react';
+import type { Job, Employer } from 'jobtypes';
 
-import { useState } from 'react';
-import type { Job } from '../types/Job';
-import type { Employer } from '../types/Employer';
-import { mockJobs, mockEmployers } from '../mockData';
+const API_BASE_URL = '/api'; // Use proxy for backend URL
 
 const useJobData = () => {
-  const [jobs, setJobs] = useState<Job[]>(mockJobs);
-  const [employers, setEmployers] = useState<Employer[]>(mockEmployers);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [employers, setEmployers] = useState<Employer[]>([]);
 
-  const addJob = (job: Job) => {
-    setJobs((prevJobs) => [...prevJobs, { ...job, id: new Date().toISOString() }]);
+  // Fetch initial data
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/jobs`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setJobs(data);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    };
+
+    const fetchEmployers = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/employers`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setEmployers(data);
+      } catch (error) {
+        console.error("Error fetching employers:", error);
+      }
+    };
+
+    fetchJobs();
+    fetchEmployers();
+  }, []);
+
+  const addJob = async (job: Job) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/jobs`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(job),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const newJob = await response.json();
+      setJobs((prevJobs) => [...prevJobs, newJob]);
+    } catch (error) {
+      console.error("Error adding job:", error);
+    }
   };
 
-  const updateJob = (job: Job) => {
-    setJobs((prevJobs) => prevJobs.map((j) => (j.id === job.id ? job : j)));
+  const updateJob = async (job: Job) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/jobs/${job.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(job),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const updatedJob = await response.json();
+      setJobs((prevJobs) => prevJobs.map((j) => (j.id === updatedJob.id ? updatedJob : j)));
+    } catch (error) {
+      console.error("Error updating job:", error);
+    }
   };
 
-  const addEmployer = (employer: Employer) => {
-    setEmployers((prevEmployers) => [...prevEmployers, { ...employer, id: new Date().toISOString() }]);
+  const addEmployer = async (employer: Employer) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/employers`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(employer),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const newEmployer = await response.json();
+      setEmployers((prevEmployers) => [...prevEmployers, newEmployer]);
+    } catch (error) {
+      console.error("Error adding employer:", error);
+    }
   };
 
-  const updateEmployer = (employer: Employer) => {
-    setEmployers((prevEmployers) => prevEmployers.map((e) => (e.id === employer.id ? employer : e)));
+  const updateEmployer = async (employer: Employer) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/employers/${employer.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(employer),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const updatedEmployer = await response.json();
+      setEmployers((prevEmployers) => prevEmployers.map((e) => (e.id === updatedEmployer.id ? updatedEmployer : e)));
+    } catch (error) {
+      console.error("Error updating employer:", error);
+    }
   };
 
-  const deleteEmployer = (id: string) => {
+  const deleteEmployer = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this employer and all associated jobs?')) {
-      setEmployers((prevEmployers) => prevEmployers.filter((e) => e.id !== id));
-      setJobs((prevJobs) => prevJobs.filter((job) => job.employerId !== id));
+      try {
+        const response = await fetch(`${API_BASE_URL}/employers/${id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        setEmployers((prevEmployers) => prevEmployers.filter((e) => e.id !== id));
+        setJobs((prevJobs) => prevJobs.filter((job) => job.employerId !== id));
+      } catch (error) {
+        console.error("Error deleting employer:", error);
+      }
     }
   };
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import type { Job } from '../types/Job';
-import type { Employer } from '../types/Employer';
+import type { Job, Employer } from 'jobtypes';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TablePagination } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -52,7 +51,7 @@ const JobList = ({ jobs, onEdit, onViewDetails, userLocation, employers, page, r
             {jobs.map((job) => {
               const employer = employers.find(emp => emp.id === job.employerId);
               const distance = userLocation && employer ? 
-                calculateDistance(userLocation.latitude, userLocation.longitude, employer.location.latitude, employer.location.longitude) : 'N/A';
+                calculateDistance(userLocation.latitude, userLocation.longitude, employer.latitude, employer.longitude) : 'N/A';
 
               return (
                 <TableRow

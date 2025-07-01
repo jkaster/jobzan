@@ -1,5 +1,5 @@
-import type { Job } from './types/Job';
-import type { Employer } from './types/Employer';
+import type { Job } from './Job';
+import type { Employer } from './Employer';
 
 // Helper function to get a random item from an array
 const getRandomItem = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];

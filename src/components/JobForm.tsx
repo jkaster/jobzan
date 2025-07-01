@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import type { Job } from '../types/Job';
-import type { Employer } from '../types/Employer';
+import type { Job, Employer } from 'jobtypes';
 import { Button, TextField, MenuItem, Box, Autocomplete } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

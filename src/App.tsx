@@ -3,8 +3,7 @@ import useGeolocation from './hooks/useGeolocation';
 import useJobData from './hooks/useJobData';
 import Layout from './components/Layout';
 import { Typography, Button, Dialog, DialogTitle, DialogContent, Tabs, Tab, Box, TextField, MenuItem, FormControl, InputLabel, Select, type SelectChangeEvent } from '@mui/material';
-import type { Job } from './types/Job';
-import type { Employer } from './types/Employer';
+import type { Job, Employer } from 'jobtypes';
 import { useTranslation } from 'react-i18next';
 
 const JobList = lazy(() => import('./components/JobList'));

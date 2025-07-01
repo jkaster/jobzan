@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
-import type { Job } from '../types/Job';
-import type { Employer } from '../types/Employer';
+import type { Job, Employer } from 'jobtypes';
 import { Typography, Box, Paper } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

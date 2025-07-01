@@ -1,6 +1,6 @@
 
 import React from 'react';
-import type { Employer } from '../types/Employer';
+import type { Employer } from 'jobtypes';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TablePagination } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

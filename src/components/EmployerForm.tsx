@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Employer } from '../types/Employer';
+import type { Employer } from 'jobtypes';
 import { Button, TextField, Box } from '@mui/material';
 
 interface EmployerFormProps {
