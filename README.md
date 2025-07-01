@@ -64,7 +64,7 @@ We have successfully:
 Here are some suggestions for future enhancements:
 
 -   **User Authentication:** Implement user login and registration to secure job data.
--   **Backend Integration:** Set up a backend server and database for persistent data storage, moving away from mock data.
+
 -   **Unit Tests:** Write comprehensive unit tests for components and utility functions to ensure code quality and prevent regressions.
 -   **Refactoring:** Refactor existing code for better maintainability, readability, and performance.
 -   **Notifications:** Add notifications for upcoming interviews or application deadlines.
