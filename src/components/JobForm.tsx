@@ -1,18 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
-import type { Job, Employer } from 'jobtypes';
+import type { IJob, IEmployer } from 'jobtypes';
 import { Button, TextField, MenuItem, Box, Autocomplete } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-interface JobFormProps {
-  job?: Job;
-  onSubmit: (job: Job) => void;
-  employers: Employer[];
+/**
+ * Props for the JobForm component.
+ * @interface
+ */
+interface IJobFormProps {
+  /** The job object to pre-fill the form for editing. */
+  job?: IJob;
+  /** Callback function to handle form submission. */
+  onSubmit: (job: IJob) => void;
+  /** An array of employer objects to populate the employer selection dropdown. */
+  employers: IEmployer[];
 }
 
-const JobForm = ({ job, onSubmit, employers }: JobFormProps) => {
+/**
+ * A form component for adding or editing job details.
+ * @param {IJobFormProps} props - The component props.
+ * @returns {JSX.Element} The JobForm component.
+ */
+const JobForm = ({ job, onSubmit, employers }: IJobFormProps) => {
   const { t } = useTranslation();
   const titleInputRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState<Job>({
+  const [formData, setFormData] = useState<IJob>({
     id: job?.id || '',
     employerId: job?.employerId || '',
     title: job?.title || '',
@@ -33,11 +45,19 @@ const JobForm = ({ job, onSubmit, employers }: JobFormProps) => {
     }
   }, [job]);
 
+  /**
+   * Handles changes to form input fields.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  /**
+   * Handles form submission.
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
@@ -48,9 +68,9 @@ const JobForm = ({ job, onSubmit, employers }: JobFormProps) => {
       <TextField name="title" label={t('title')} value={formData.title} onChange={handleChange} fullWidth margin="normal" inputRef={titleInputRef} />
       <Autocomplete
         options={employers}
-        getOptionLabel={(option: Employer) => option.name}
+        getOptionLabel={(option: IEmployer) => option.name}
         value={employers.find(emp => emp.id === formData.employerId) || null}
-        onChange={(_event: React.SyntheticEvent, newValue: Employer | null) => {
+        onChange={(_event: React.SyntheticEvent, newValue: IEmployer | null) => {
           setFormData({ ...formData, employerId: newValue ? newValue.id : '' });
         }}
         renderInput={(params) => <TextField {...params} label={t('employer')} fullWidth margin="normal" />}

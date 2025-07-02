@@ -1,8 +1,21 @@
-
 import React from 'react';
 import { AppBar, Toolbar, Typography, Container, Box } from '@mui/material';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+/**
+ * Props for the Layout component.
+ * @interface
+ */
+interface ILayoutProps {
+  /** The child components to be rendered within the layout. */
+  children: React.ReactNode;
+}
+
+/**
+ * A layout component that provides a consistent header, main content area, and footer for the application.
+ * @param props - The component props.
+ * @returns The Layout component.
+ */
+const Layout = ({ children }: ILayoutProps) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <AppBar position="static">

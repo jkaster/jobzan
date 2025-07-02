@@ -12,6 +12,10 @@ const pool = new Pool({
   port: parseInt(process.env.DB_PORT || '5432', 10),
 });
 
+/**
+ * Populates the PostgreSQL database with mock employer and job data.
+ * Can optionally wipe existing data before insertion.
+ */
 async function populateDb() {
   const args = process.argv.slice(2);
   const wipeData = args.includes('-w') || args.includes('--wipe');
@@ -31,7 +35,7 @@ async function populateDb() {
     for (const employer of mockEmployers) {
       await client.query(
         'INSERT INTO employers (id, name, latitude, longitude, contact_name, contact_phone, contact_email, website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) ON CONFLICT (id) DO NOTHING',
-        [employer.id, employer.name, employer.location.latitude, employer.location.longitude, employer.contactName, employer.contactPhone, employer.contactEmail, employer.website]
+        [employer.id, employer.name, employer.latitude, employer.longitude, employer.contactName, employer.contactPhone, employer.contactEmail, employer.website]
       );
     }
     console.log(`Attempted to insert ${mockEmployers.length} employers (existing IDs skipped).`);

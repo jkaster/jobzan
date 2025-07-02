@@ -1,17 +1,28 @@
 import { useEffect, useRef } from 'react';
-import type { Job, Employer } from 'jobtypes';
+import type { IJob, IEmployer } from 'jobtypes';
 import { Typography, Box, Paper } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-interface JobDetailsProps {
-  job: Job;
-  employers: Employer[];
+/**
+ * Props for the JobDetails component.
+ * @interface
+ */
+interface IJobDetailsProps {
+  /** The job object to display details for. */
+  job: IJob;
+  /** An array of employer objects to find the associated employer. */
+  employers: IEmployer[];
 }
 
-const JobDetails = ({ job, employers }: JobDetailsProps) => {
+/**
+ * A component that displays the detailed information of a job and its associated employer.
+ * @param {IJobDetailsProps} props - The component props.
+ * @returns {JSX.Element} The JobDetails component.
+ */
+const JobDetails = ({ job, employers }: IJobDetailsProps) => {
   const { t } = useTranslation();
   const detailsRef = useRef<HTMLDivElement>(null);
-  const employer = employers.find(emp => emp.id === job.employerId);
+  const employer = employers.find((emp: IEmployer) => emp.id === job.employerId);
 
   useEffect(() => {
     if (detailsRef.current) {

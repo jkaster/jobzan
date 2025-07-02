@@ -7,8 +7,15 @@ import i18n from './i18n'; // Import your i18n configuration
 import App from './App.tsx';
 import './index.css';
 
+/**
+ * Creates a Material-UI theme instance.
+ */
 const theme = createTheme();
 
+/**
+ * Renders the React application into the DOM.
+ * The application is wrapped with StrictMode, I18nextProvider, ThemeProvider, and CssBaseline.
+ */
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <I18nextProvider i18n={i18n}>

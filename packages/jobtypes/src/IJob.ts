@@ -1,4 +1,8 @@
-export interface Job {
+/**
+ * Represents a job application.
+ * @interface
+ */
+export interface IJob {
   id: string;
   employerId: string;
   title: string;

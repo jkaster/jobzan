@@ -4,6 +4,23 @@
 
 ### Fixed
 
+- Removed redundant `{type}` annotations from JSDoc comments in all TypeScript and TSX files.
+- Corrected `Employer` interface and `mockData.ts` to flatten `latitude` and `longitude` properties.
+- Updated `EmployerForm.tsx` and `JobDetails.tsx` to reflect flattened `Employer` interface.
+- Bugs in `populateDb.ts` (flattened employer location, corrected job description link).
+
+### Added
+
+- Jitter to `fetchWithRetry` function.
+- `populate-db` script to root `package.json`.
+
+### Changed
+
+- Added JSDoc comments to all TypeScript and TSX files.
+- Renamed all interfaces to be prefixed with 'I' (e.g., `Job` to `IJob`, `Employer` to `IEmployer`).
+
+### Fixed
+
 - Corrected `Employer` interface and `mockData.ts` to flatten `latitude` and `longitude` properties.
 - Updated `EmployerForm.tsx` and `JobDetails.tsx` to reflect flattened `Employer` interface.
 

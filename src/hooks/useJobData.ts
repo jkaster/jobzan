@@ -1,17 +1,26 @@
 import { useState, useEffect } from 'react';
-import type { Job, Employer } from 'jobtypes';
+import type { IJob, IEmployer } from 'jobtypes';
+import { fetchWithRetry } from '../utils/fetchWithRetry';
 
 const API_BASE_URL = '/api'; // Use proxy for backend URL
 
+/**
+ * A custom React hook for managing job and employer data, including fetching, adding, updating, and deleting.
+ * It uses `fetchWithRetry` for all API interactions.
+ * @returns An object containing job data, employer data, and functions to manipulate them.
+ */
 const useJobData = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [employers, setEmployers] = useState<Employer[]>([]);
+  const [jobs, setJobs] = useState<IJob[]>([]);
+  const [employers, setEmployers] = useState<IEmployer[]>([]);
 
   // Fetch initial data
   useEffect(() => {
+    /**
+     * Fetches all job data from the backend API.
+     */
     const fetchJobs = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/jobs`);
+        const response = await fetchWithRetry(`${API_BASE_URL}/jobs`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -22,9 +31,12 @@ const useJobData = () => {
       }
     };
 
+    /**
+     * Fetches all employer data from the backend API.
+     */
     const fetchEmployers = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/employers`);
+        const response = await fetchWithRetry(`${API_BASE_URL}/employers`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -39,9 +51,13 @@ const useJobData = () => {
     fetchEmployers();
   }, []);
 
-  const addJob = async (job: Job) => {
+  /**
+   * Adds a new job to the backend API.
+   * @param job The job object to add.
+   */
+  const addJob = async (job: IJob) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/jobs`, {
+      const response = await fetchWithRetry(`${API_BASE_URL}/jobs`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(job),
@@ -56,9 +72,13 @@ const useJobData = () => {
     }
   };
 
-  const updateJob = async (job: Job) => {
+  /**
+   * Updates an existing job in the backend API.
+   * @param job The job object with updated data.
+   */
+  const updateJob = async (job: IJob) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/jobs/${job.id}`, {
+      const response = await fetchWithRetry(`${API_BASE_URL}/jobs/${job.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(job),
@@ -73,9 +93,13 @@ const useJobData = () => {
     }
   };
 
-  const addEmployer = async (employer: Employer) => {
+  /**
+   * Adds a new employer to the backend API.
+   * @param employer The employer object to add.
+   */
+  const addEmployer = async (employer: IEmployer) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/employers`, {
+      const response = await fetchWithRetry(`${API_BASE_URL}/employers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(employer),
@@ -90,9 +114,13 @@ const useJobData = () => {
     }
   };
 
-  const updateEmployer = async (employer: Employer) => {
+  /**
+   * Updates an existing employer in the backend API.
+   * @param employer The employer object with updated data.
+   */
+  const updateEmployer = async (employer: IEmployer) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/employers/${employer.id}`, {
+      const response = await fetchWithRetry(`${API_BASE_URL}/employers/${employer.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(employer),
@@ -107,10 +135,14 @@ const useJobData = () => {
     }
   };
 
+  /**
+   * Deletes an employer from the backend API.
+   * @param id The ID of the employer to delete.
+   */
   const deleteEmployer = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this employer and all associated jobs?')) {
       try {
-        const response = await fetch(`${API_BASE_URL}/employers/${id}`, {
+        const response = await fetchWithRetry(`${API_BASE_URL}/employers/${id}`, {
           method: 'DELETE',
         });
         if (!response.ok) {

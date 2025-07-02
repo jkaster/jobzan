@@ -1,4 +1,8 @@
-export interface Employer {
+/**
+ * Represents an employer.
+ * @interface
+ */
+export interface IEmployer {
   id: string;
   name: string;
   latitude: number;

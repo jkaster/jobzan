@@ -23,7 +23,15 @@ This project is a job application tracking application built with React, TypeScr
     pnpm install
     ```
 
-4.  Start the development server:
+4.  Populate the database (optional, but recommended for initial setup):
+
+    ```bash
+    pnpm populate-db
+    # To wipe existing data before populating:
+    pnpm populate-db -- --wipe
+    ```
+
+5.  Start the development server:
 
     ```bash
     pnpm dev

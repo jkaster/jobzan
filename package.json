@@ -9,7 +9,8 @@
     "build": "pnpm --filter jobtypes build && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start:backend": "pnpm --filter server build && pnpm --filter server start"
+    "start:backend": "pnpm --filter server build && pnpm --filter server start",
+    "populate-db": "pnpm --filter server populate-db"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

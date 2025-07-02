@@ -1,24 +1,51 @@
 import React from 'react';
-import type { Job, Employer } from 'jobtypes';
+import type { IJob, IEmployer } from 'jobtypes';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TablePagination } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-interface JobListProps {
-  jobs: Job[];
-  onEdit: (job: Job) => void;
-  onViewDetails: (job: Job) => void;
+/**
+ * Props for the JobList component.
+ * @interface
+ */
+interface IJobListProps {
+  /** An array of job objects to display. */
+  jobs: IJob[];
+  /** Callback function for when a job is to be edited. */
+  onEdit: (job: IJob) => void;
+  /** Callback function for when job details are to be viewed. */
+  onViewDetails: (job: IJob) => void;
+  /** The user's current geographical location, or null if not available. */
   userLocation: { latitude: number; longitude: number } | null;
-  employers: Employer[];
+  /** An array of employer objects to associate with jobs. */
+  employers: IEmployer[];
+  /** The current page number for pagination. */
   page: number;
+  /** The number of rows to display per page for pagination. */
   rowsPerPage: number;
+  /** Callback function for page changes in pagination. */
   onPageChange: (event: unknown, newPage: number) => void;
+  /** Callback function for rows per page changes in pagination. */
   onRowsPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  /** The total count of jobs for pagination. */
   count: number;
 }
 
-const JobList = ({ jobs, onEdit, onViewDetails, userLocation, employers, page, rowsPerPage, onPageChange, onRowsPerPageChange, count }: JobListProps) => {
+/**
+ * A component that displays a list of jobs in a table format.
+ * It includes features like employer association, distance calculation, and pagination.
+ * @param {IJobListProps} props - The component props.
+ * @returns {JSX.Element} The JobList component.
+ */
+const JobList = ({ jobs, onEdit, onViewDetails, userLocation, employers, page, rowsPerPage, onPageChange, onRowsPerPageChange, count }: IJobListProps) => {
   const { t } = useTranslation();
-  // Haversine formula to calculate distance between two lat/lng points
+  /**
+   * Calculates the distance between two geographical points using the Haversine formula.
+   * @param lat1 - Latitude of the first point.
+   * @param lon1 - Longitude of the first point.
+   * @param lat2 - Latitude of the second point.
+   * @param lon2 - Longitude of the second point.
+   * @returns The distance in miles, formatted to two decimal places.
+   */
   const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
     const R = 3958.8; // Radius of Earth in miles
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -48,8 +75,8 @@ const JobList = ({ jobs, onEdit, onViewDetails, userLocation, employers, page, r
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs.map((job) => {
-              const employer = employers.find(emp => emp.id === job.employerId);
+            {jobs.map((job: IJob) => {
+              const employer = employers.find((emp: IEmployer) => emp.id === job.employerId);
               const distance = userLocation && employer ? 
                 calculateDistance(userLocation.latitude, userLocation.longitude, employer.latitude, employer.longitude) : 'N/A';
 

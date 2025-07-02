@@ -1,18 +1,28 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Employer } from 'jobtypes';
+import type { IEmployer } from 'jobtypes';
 import { Button, TextField, Box } from '@mui/material';
 
-interface EmployerFormProps {
-  employer?: Employer;
-  onSubmit: (employer: Employer) => void;
+/**
+ * Props for the EmployerForm component.
+ * @interface
+ */
+interface IEmployerFormProps {
+  /** The employer object to pre-fill the form for editing. */
+  employer?: IEmployer;
+  /** Callback function to handle form submission. */
+  onSubmit: (employer: IEmployer) => void;
 }
 
-const EmployerForm = ({ employer, onSubmit }: EmployerFormProps) => {
+/**
+ * A form component for adding or editing employer details.
+ * @param {IEmployerFormProps} props - The component props.
+ * @returns {JSX.Element} The EmployerForm component.
+ */
+const EmployerForm = ({ employer, onSubmit }: IEmployerFormProps) => {
   const { t } = useTranslation();
   const nameInputRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState<Employer>({
+  const [formData, setFormData] = useState<IEmployer>({
     id: employer?.id || '',
     name: employer?.name || '',
     latitude: employer?.latitude || 0,
@@ -32,11 +42,19 @@ const EmployerForm = ({ employer, onSubmit }: EmployerFormProps) => {
     }
   }, [employer]);
 
+  /**
+   * Handles changes to form input fields.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: name === 'latitude' || name === 'longitude' ? parseFloat(value) : value });
   };
 
+  /**
+   * Handles form submission.
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);

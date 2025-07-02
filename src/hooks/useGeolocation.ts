@@ -1,13 +1,20 @@
-
 import { useState, useEffect } from 'react';
 
-interface UserLocation {
+/**
+ * Represents the user's geographical location.
+ * @interface
+ */
+interface IUserLocation {
   latitude: number;
   longitude: number;
 }
 
+/**
+ * A custom React hook for accessing and tracking the user's geolocation.
+ * @returns An object containing the user's location and any error that occurred.
+ */
 const useGeolocation = () => {
-  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [userLocation, setUserLocation] = useState<IUserLocation | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
