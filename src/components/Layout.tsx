@@ -1,5 +1,5 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, Container, Box } from '@mui/material';
+import React from "react";
+import { AppBar, Toolbar, Typography, Container, Box } from "@mui/material";
 
 /**
  * Props for the Layout component.
@@ -17,7 +17,7 @@ interface ILayoutProps {
  */
 const Layout = ({ children }: ILayoutProps) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -33,9 +33,9 @@ const Layout = ({ children }: ILayoutProps) => {
         sx={{
           py: 3,
           px: 2,
-          mt: 'auto',
+          mt: "auto",
           backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
+            theme.palette.mode === "light"
               ? theme.palette.grey[200]
               : theme.palette.grey[800],
         }}

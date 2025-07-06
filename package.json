@@ -3,14 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  
   "scripts": {
     "dev": "vite",
-    "build": "pnpm --filter jobtypes build && tsc -b && vite build",
+    "build": "pnpm --filter jobtypes build && pnpm tsc -b && pnpm vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "start:backend": "pnpm --filter server build && pnpm --filter server start",
-    "populate-db": "pnpm --filter server populate-db"
+    "populate-db": "pnpm --filter server populate-db",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -19,22 +20,29 @@
     "@mui/lab": "^7.0.0-beta.14",
     "@mui/material": "^7.1.2",
     "i18next": "^25.3.0",
+    "jobtypes": "file:packages/jobtypes",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-i18next": "^15.5.3",
-    "jobtypes": "file:packages/jobtypes"
+    "react-i18next": "^15.5.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",
+    "@vitest/ui": "^3.2.4",
     "eslint": "^9.29.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.6.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.34.1",
-    "vite": "^7.0.0"
+    "vite": "^7.0.0",
+    "vitest": "^3.2.4"
   }
 }

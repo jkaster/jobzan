@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import type { IJob, IEmployer } from 'jobtypes';
-import { fetchWithRetry } from '../utils/fetchWithRetry';
+import { useState, useEffect } from "react";
+import type { IJob, IEmployer } from "jobtypes";
+import { fetchWithRetry } from "../utils/fetchWithRetry";
 
-const API_BASE_URL = '/api'; // Use proxy for backend URL
+const API_BASE_URL = "/api"; // Use proxy for backend URL
 
 /**
  * A custom React hook for managing job and employer data, including fetching, adding, updating, and deleting.
@@ -58,8 +58,8 @@ const useJobData = () => {
   const addJob = async (job: IJob) => {
     try {
       const response = await fetchWithRetry(`${API_BASE_URL}/jobs`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(job),
       });
       if (!response.ok) {
@@ -79,15 +79,17 @@ const useJobData = () => {
   const updateJob = async (job: IJob) => {
     try {
       const response = await fetchWithRetry(`${API_BASE_URL}/jobs/${job.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(job),
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const updatedJob = await response.json();
-      setJobs((prevJobs) => prevJobs.map((j) => (j.id === updatedJob.id ? updatedJob : j)));
+      setJobs((prevJobs) =>
+        prevJobs.map((j) => (j.id === updatedJob.id ? updatedJob : j)),
+      );
     } catch (error) {
       console.error("Error updating job:", error);
     }
@@ -100,8 +102,8 @@ const useJobData = () => {
   const addEmployer = async (employer: IEmployer) => {
     try {
       const response = await fetchWithRetry(`${API_BASE_URL}/employers`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(employer),
       });
       if (!response.ok) {
@@ -120,16 +122,23 @@ const useJobData = () => {
    */
   const updateEmployer = async (employer: IEmployer) => {
     try {
-      const response = await fetchWithRetry(`${API_BASE_URL}/employers/${employer.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(employer),
-      });
+      const response = await fetchWithRetry(
+        `${API_BASE_URL}/employers/${employer.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(employer),
+        },
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const updatedEmployer = await response.json();
-      setEmployers((prevEmployers) => prevEmployers.map((e) => (e.id === updatedEmployer.id ? updatedEmployer : e)));
+      setEmployers((prevEmployers) =>
+        prevEmployers.map((e) =>
+          e.id === updatedEmployer.id ? updatedEmployer : e,
+        ),
+      );
     } catch (error) {
       console.error("Error updating employer:", error);
     }
@@ -140,15 +149,24 @@ const useJobData = () => {
    * @param id The ID of the employer to delete.
    */
   const deleteEmployer = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this employer and all associated jobs?')) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this employer and all associated jobs?",
+      )
+    ) {
       try {
-        const response = await fetchWithRetry(`${API_BASE_URL}/employers/${id}`, {
-          method: 'DELETE',
-        });
+        const response = await fetchWithRetry(
+          `${API_BASE_URL}/employers/${id}`,
+          {
+            method: "DELETE",
+          },
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        setEmployers((prevEmployers) => prevEmployers.filter((e) => e.id !== id));
+        setEmployers((prevEmployers) =>
+          prevEmployers.filter((e) => e.id !== id),
+        );
         setJobs((prevJobs) => prevJobs.filter((job) => job.employerId !== id));
       } catch (error) {
         console.error("Error deleting employer:", error);
