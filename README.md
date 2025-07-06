@@ -71,6 +71,7 @@ We have successfully:
 
 Here are some suggestions for future enhancements:
 
+- **Analytics UI:** Build a user interface to visualize the job analytics queries for finding the best job offers.
 - **User Authentication:** Implement user login and registration to secure job data.
 
 - **Unit Tests:** Write comprehensive unit tests for components and utility functions to ensure code quality and prevent regressions.

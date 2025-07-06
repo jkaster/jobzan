@@ -2,6 +2,10 @@
 
 ## 2025-07-06
 
+### Added
+
+- Created `server/queries.sql` with static and dynamic pivot queries for job analytics.
+
 ### Confirmed
 
 - Project builds successfully with no errors.
