@@ -4,7 +4,15 @@
 
 ### Added
 
-- Created `server/queries.sql` with static and dynamic pivot queries for job analytics.
+- Implemented Google and GitHub OAuth authentication using Passport.js.
+- Created `users` table in `server/schema.sql`.
+- Added Passport configuration in `server/src/config/passport.ts`.
+- Defined authentication routes in `server/src/routes/auth.ts`.
+- Integrated Passport and auth routes into `server/src/index.ts`.
+- Created `src/Login.tsx` component for authentication UI.
+- Created `src/AuthContext.tsx` for managing authentication state.
+- Updated `src/App.tsx` and `src/main.tsx` for routing and protected routes.
+- Installed `react-router-dom`, `jwt-decode`, and `@types/react-router-dom`.
 
 ### Confirmed
 

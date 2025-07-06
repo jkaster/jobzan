@@ -1,3 +1,13 @@
+-- Create the users table if it doesn't exist
+CREATE TABLE IF NOT EXISTS users (
+    id VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    displayName VARCHAR(255),
+    provider VARCHAR(50) NOT NULL,
+    provider_id VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create the employers table if it doesn't exist
 CREATE TABLE IF NOT EXISTS employers (
     id VARCHAR(255) PRIMARY KEY,

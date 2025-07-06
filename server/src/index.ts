@@ -2,12 +2,15 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { Pool, types } from "pg";
+import session from 'express-session';
+import passport from './config/passport';
 
 // Parse NUMERIC (OID 1700) as float to ensure correct data types from PostgreSQL
 types.setTypeParser(types.builtins.NUMERIC, parseFloat);
 
 import createJobsRouter from "./routes/jobs";
 import createEmployersRouter from "./routes/employers";
+import authRouter from './routes/auth';
 
 dotenv.config();
 
@@ -30,12 +33,25 @@ const port = process.env.PORT || 5000;
 app.use(
   cors({
     origin: "http://localhost:5173",
+    credentials: true, // Allow cookies to be sent with requests
   }),
 );
 /**
  * Middleware to parse incoming JSON requests.
  */
 app.use(express.json()); // for parsing application/json
+
+// Session middleware
+app.use(session({
+  secret: process.env.JWT_SECRET || 'secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: process.env.NODE_ENV === 'production' } // Use secure cookies in production
+}));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 /**
  * PostgreSQL Connection Pool.
@@ -77,6 +93,9 @@ app.use("/api/jobs", createJobsRouter(pool));
  * Mounts the employers router at /api/employers.
  */
 app.use("/api/employers", createEmployersRouter(pool));
+
+// Mount authentication routes
+app.use('/api/auth', authRouter);
 
 /**
  * Basic root route to confirm the API is running.

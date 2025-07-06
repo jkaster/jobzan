@@ -1,5 +1,6 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Container, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, Container, Box, Button } from "@mui/material";
+import { useAuth } from '../AuthContext';
 
 /**
  * Props for the Layout component.
@@ -16,6 +17,19 @@ interface ILayoutProps {
  * @returns The Layout component.
  */
 const Layout = ({ children }: ILayoutProps) => {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    // Call backend logout endpoint
+    fetch('/api/auth/logout')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data.message);
+        logout();
+      })
+      .catch(error => console.error('Logout error:', error));
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <AppBar position="static">
@@ -23,6 +37,16 @@ const Layout = ({ children }: ILayoutProps) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Jobzan, the job hunter
           </Typography>
+          {user && (
+            <>
+              <Typography variant="subtitle1" sx={{ mr: 2 }}>
+                Welcome, {user.displayName || user.email}
+              </Typography>
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <Container component="main" sx={{ mt: 4, mb: 4 }}>
