@@ -14,16 +14,28 @@ const pool = new Pool({
   port: parseInt(process.env.DB_PORT || '5432', 10),
 });
 
-passport.serializeUser((user: any, done) => {
+interface IUserProfile {
+  id: string;
+  email: string;
+  displayName: string;
+  provider: string;
+  provider_id: string;
+}
+
+passport.serializeUser((user: IUserProfile, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(async (id: string, done) => {
+passport.deserializeUser(async (id: string, done: (err: Error | null, user?: IUserProfile) => void) => {
   try {
     const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
     done(null, result.rows[0]);
-  } catch (err) {
-    done(err);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      done(err);
+    } else {
+      done(new Error('An unknown error occurred'));
+    }
   }
 });
 
@@ -33,7 +45,7 @@ passport.use(new GoogleStrategy({
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
   callbackURL: '/api/auth/google/callback',
   scope: ['profile', 'email'],
-}, async (accessToken, refreshToken, profile, done) => {
+}, async (accessToken: string, refreshToken: string, profile: import('passport-google-oauth20').Profile, done: (err: Error | null, user?: IUserProfile) => void) => {
   try {
     const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
     if (!email) {
@@ -50,8 +62,12 @@ passport.use(new GoogleStrategy({
       );
     }
     done(null, user.rows[0]);
-  } catch (err: any) {
-    done(err, undefined);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      done(err, undefined);
+    } else {
+      done(new Error('An unknown error occurred'), undefined);
+    }
   }
 }));
 
@@ -61,7 +77,7 @@ passport.use(new GitHubStrategy({
   clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
   callbackURL: '/api/auth/github/callback',
   scope: ['user:email'],
-}, async (accessToken: string, refreshToken: string, profile: any, done: Function) => {
+}, async (accessToken: string, refreshToken: string, profile: import('passport-github2').Profile, done: (err: Error | null, user?: IUserProfile) => void) => {
   try {
     const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
     if (!email) {
@@ -78,8 +94,13 @@ passport.use(new GitHubStrategy({
       );
     }
     done(null, user.rows[0]);
-  } catch (err: any) {
-    done(err, undefined);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      done(err, undefined);
+    }
+    else {
+      done(new Error('An unknown error occurred'), undefined);
+    }
   }
 }));
 

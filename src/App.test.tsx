@@ -1,10 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { Suspense } from 'react';
 import App from './App';
 import { vi } from 'vitest';
 import * as useJobDataModule from './hooks/useJobData';
 import * as useGeolocationModule from './hooks/useGeolocation';
 import type { IJob, IEmployer } from 'jobtypes';
+import { AllTheProviders } from './tests/setup';
 
 // Mock react-i18next
 vi.mock("react-i18next", () => ({
@@ -108,11 +108,7 @@ describe("App", () => {
   });
 
   it("renders the main application title", async () => {
-    render(
-      <Suspense fallback={<div>Loading...</div>}>
-        <App />
-      </Suspense>,
-    );
+    render(<App />, { wrapper: AllTheProviders });
     await waitFor(() =>
       expect(screen.getByTestId("app-title")).toBeInTheDocument(),
     );

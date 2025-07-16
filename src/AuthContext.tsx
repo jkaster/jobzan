@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect, useContext, type ReactNode } from 'react';
+import React, { createContext, useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
-interface IUser {
+export interface IUser {
   id: string;
   email: string;
   displayName?: string;
@@ -11,7 +11,7 @@ interface IUser {
  * Defines the shape of the authentication context.
  * @interface
  */
-interface IAuthContextType {
+export interface IAuthContextType {
   user: IUser | null;
   token: string | null;
   login: (jwtToken: string) => void;
@@ -19,7 +19,7 @@ interface IAuthContextType {
   isAuthenticated: boolean;
 }
 
-const AuthContext = createContext<IAuthContextType | undefined>(undefined);
+export const AuthContext = createContext<IAuthContextType | undefined>(undefined);
 
 /**
  * Props for the AuthProvider component.
@@ -86,17 +86,4 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-/**
- * Custom hook to access the authentication context.
- * Throws an error if not used within an AuthProvider.
- * @returns The authentication context.
- */
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };

@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { Pool, QueryResult } from "pg";
+import { IJob } from "../../packages/jobtypes/src/IJob";
 
 /**
  * Helper function to generate a random UUID-like string (for new jobs).
@@ -15,7 +16,7 @@ const generateId = () =>
  * @returns An Express route handler.
  */
 const asyncHandler =
-  (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) =>
+  (fn: (req: Request, res: Response, next: NextFunction) => Promise<void>) =>
   (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
@@ -69,7 +70,7 @@ const createJobsRouter = (pool: Pool) => {
    */
   router.post(
     "/",
-    asyncHandler(async (req: Request, res: Response) => {
+    asyncHandler(async (req: Request<{}, {}, IJob>, res: Response) => {
       const {
         employerId,
         title,
@@ -106,7 +107,7 @@ const createJobsRouter = (pool: Pool) => {
    */
   router.put(
     "/:id",
-    asyncHandler(async (req: Request, res: Response) => {
+    asyncHandler(async (req: Request<{ id: string }, {}, IJob>, res: Response) => {
       const { id } = req.params;
       const {
         employerId,
@@ -146,7 +147,7 @@ const createJobsRouter = (pool: Pool) => {
    */
   router.delete(
     "/:id",
-    asyncHandler(async (req: Request, res: Response) => {
+    asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
       const { id } = req.params;
       const result: QueryResult = await pool.query(
         "DELETE FROM jobs WHERE id = $1 RETURNING *",

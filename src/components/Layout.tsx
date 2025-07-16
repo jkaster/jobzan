@@ -1,6 +1,6 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Container, Box, Button } from "@mui/material";
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 /**
  * Props for the Layout component.

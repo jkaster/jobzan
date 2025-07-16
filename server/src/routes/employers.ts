@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { Pool, QueryResult } from "pg";
+import { IEmployer } from "../../packages/jobtypes/src/IEmployer";
 
 /**
  * Helper function to generate a random UUID-like string (for new employers).
@@ -15,7 +16,7 @@ const generateId = () =>
  * @returns An Express route handler.
  */
 const asyncHandler =
-  (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) =>
+  (fn: (req: Request, res: Response, next: NextFunction) => Promise<void>) =>
   (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
@@ -69,7 +70,7 @@ const createEmployersRouter = (pool: Pool) => {
    */
   router.post(
     "/",
-    asyncHandler(async (req: Request, res: Response) => {
+    asyncHandler(async (req: Request<{}, {}, IEmployer>, res: Response) => {
       const {
         name,
         latitude,
@@ -104,7 +105,7 @@ const createEmployersRouter = (pool: Pool) => {
    */
   router.put(
     "/:id",
-    asyncHandler(async (req: Request, res: Response) => {
+    asyncHandler(async (req: Request<{ id: string }, {}, IEmployer>, res: Response) => {
       const { id } = req.params;
       const {
         name,
@@ -142,7 +143,7 @@ const createEmployersRouter = (pool: Pool) => {
    */
   router.delete(
     "/:id",
-    asyncHandler(async (req: Request, res: Response) => {
+    asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
       const { id } = req.params;
       const result: QueryResult = await pool.query(
         "DELETE FROM employers WHERE id = $1 RETURNING *",

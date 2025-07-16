@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import passport from '../config/passport';
 import jwt from 'jsonwebtoken';
+import { IUserProfile } from '../config/passport';
 
 const router = Router();
 
@@ -10,7 +11,7 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/', session: false }),
   (req, res) => {
-    const user = req.user as any;
+    const user = req.user as IUserProfile;
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
     res.redirect(`/?token=${token}`);
   }
@@ -22,7 +23,7 @@ router.get('/github', passport.authenticate('github', { scope: ['user:email'] })
 router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/', session: false }),
   (req, res) => {
-    const user = req.user as any;
+    const user = req.user as IUserProfile;
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
     res.redirect(`/?token=${token}`);
   }
