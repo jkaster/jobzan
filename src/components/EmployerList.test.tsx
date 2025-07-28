@@ -3,6 +3,7 @@ import { vi } from 'vitest';
 import userEvent from "@testing-library/user-event";
 import EmployerList from "./EmployerList";
 import type { IEmployer } from "jobtypes";
+import { axe } from 'jest-axe';
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -88,5 +89,22 @@ describe("EmployerList", () => {
       />,
     );
     expect(screen.getByLabelText("Rows per page:")).toBeInTheDocument();
+  });
+
+  it('should not have any accessibility violations', async () => {
+    const { container } = render(
+      <EmployerList
+        employers={mockEmployers}
+        onEdit={() => {}}
+        onDelete={() => {}}
+        page={0}
+        rowsPerPage={5}
+        onPageChange={() => {}}
+        onRowsPerPageChange={() => {}}
+        count={mockEmployers.length}
+      />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 });

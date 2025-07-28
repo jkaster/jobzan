@@ -3,6 +3,7 @@ import { vi } from 'vitest';
 import userEvent from "@testing-library/user-event";
 import EmployerForm from "./EmployerForm";
 import type { IEmployer } from "jobtypes";
+import { axe } from 'jest-axe';
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -65,5 +66,11 @@ describe("EmployerForm", () => {
     expect(handleSubmit).toHaveBeenCalledWith(
       expect.objectContaining({ name: "New Employer" }),
     );
+  });
+
+  it('should not have any accessibility violations', async () => {
+    const { container } = render(<EmployerForm onSubmit={() => {}} />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 });

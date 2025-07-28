@@ -3,6 +3,7 @@ import { vi } from 'vitest';
 import userEvent from "@testing-library/user-event";
 import JobList from "./JobList";
 import type { IJob, IEmployer } from "jobtypes";
+import { axe } from 'jest-axe';
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -305,5 +306,24 @@ describe("JobList", () => {
     expect(screen.queryByText("Test Employer")).not.toBeInTheDocument();
     // Add an assertion for an empty state message if one exists in the component
     // For now, just checking for absence of job data
+  });
+
+  it('should not have any accessibility violations', async () => {
+    const { container } = render(
+      <JobList
+        jobs={mockJobs}
+        onEdit={() => {}}
+        onViewDetails={() => {}}
+        userLocation={userLocation}
+        employers={mockEmployers}
+        page={0}
+        rowsPerPage={5}
+        onPageChange={() => {}}
+        onRowsPerPageChange={() => {}}
+        count={mockJobs.length}
+      />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 });
