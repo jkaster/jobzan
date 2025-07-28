@@ -23,5 +23,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "src/utils"]
+  "include": ["src", "src/utils"],
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "src/tests"]
 }

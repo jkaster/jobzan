@@ -1,8 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from './App';
 import { vi } from 'vitest';
 import * as useJobDataModule from './hooks/useJobData';
 import * as useGeolocationModule from './hooks/useGeolocation';
+import * as useAuthModule from './hooks/useAuth';
 import type { IJob, IEmployer } from 'jobtypes';
 import { AllTheProviders } from './tests/setup';
 
@@ -101,6 +103,13 @@ describe("App", () => {
       userLocation: { latitude: 34.0522, longitude: -118.2437 },
       error: null,
     });
+    vi.spyOn(useAuthModule, 'useAuth').mockReturnValue({
+      isAuthenticated: true,
+      user: { id: 'test-user', email: 'test@example.com', displayName: 'Test User' },
+      token: 'test-token',
+      login: vi.fn(),
+      logout: vi.fn(),
+    });
   });
 
   afterEach(() => {
@@ -114,7 +123,14 @@ describe("App", () => {
     );
   });
 
-  it.todo("filters jobs by status");
+  it('filters jobs by status', async () => {
+    render(<App />, { wrapper: AllTheProviders });
+    const filterStatus = screen.getByLabelText('Filter by Status');
+    await userEvent.click(filterStatus);
+    await userEvent.click(screen.getByRole('option', { name: 'lead' }));
+    expect(screen.getByText('Product Manager')).toBeInTheDocument();
+    expect(screen.queryByText('Software Engineer')).not.toBeInTheDocument();
+  });
 
   it.todo("filters jobs by commute type");
 

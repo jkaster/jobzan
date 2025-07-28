@@ -7,7 +7,7 @@ import i18n from "./i18n"; // Import your i18n configuration
 import App from "./App.tsx";
 import "./index.css";
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from './AuthContext';
+import { AuthProvider } from './AuthProvider';
 
 /**
  * Creates a Material-UI theme instance.

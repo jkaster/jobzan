@@ -1,25 +1,6 @@
-import React, { createContext, useState, useEffect, type ReactNode } from 'react';
+import React, { useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
-
-export interface IUser {
-  id: string;
-  email: string;
-  displayName?: string;
-}
-
-/**
- * Defines the shape of the authentication context.
- * @interface
- */
-export interface IAuthContextType {
-  user: IUser | null;
-  token: string | null;
-  login: (jwtToken: string) => void;
-  logout: () => void;
-  isAuthenticated: boolean;
-}
-
-export const AuthContext = createContext<IAuthContextType | undefined>(undefined);
+import { AuthContext, type IUser } from './context/AuthContext';
 
 /**
  * Props for the AuthProvider component.

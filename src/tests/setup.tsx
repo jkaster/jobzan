@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { cleanup } from "@testing-library/react";
 import { afterEach } from "vitest";
-import { AuthProvider } from "../AuthContext";
+import { AuthProvider } from "../AuthProvider";
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
