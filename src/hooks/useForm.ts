@@ -1,4 +1,4 @@
-import { useState, useCallback, ChangeEvent } from 'react';
+import { useState, useCallback } from "react";
 
 /**
  * A generic custom hook for managing form state and input changes.
@@ -14,14 +14,26 @@ export const useForm = <T extends Record<string, any>>(initialValues: T) => {
    * It automatically handles text, number, and other input types.
    * @param e - The change event from the input element.
    */
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      let parsedValue: string | number | boolean = value;
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: type === 'checkbox' ? checked : (type === 'number' ? parseFloat(value) : value),
-    }));
-  }, []);
+      if (e.target instanceof HTMLInputElement) {
+        if (e.target.type === "checkbox") {
+          parsedValue = e.target.checked;
+        } else if (e.target.type === "number") {
+          parsedValue = parseFloat(value);
+        }
+      }
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: parsedValue,
+      }));
+    },
+    []
+  );
 
   return { formData, handleChange, setFormData };
 };
