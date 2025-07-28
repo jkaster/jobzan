@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { axe } from 'jest-axe';
 import App from './App';
 import { vi } from 'vitest';
 import * as useJobDataModule from './hooks/useJobData';
@@ -183,5 +184,11 @@ describe("App", () => {
     // The first row is the header, so we start from the second row
     expect(rows[1].children[0]).toHaveTextContent('DevOps Engineer');
     expect(rows[2].children[0]).toHaveTextContent('QA Engineer');
+  });
+
+  it('should not have any accessibility violations', async () => {
+    const { container } = render(<App />, { wrapper: AllTheProviders });
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 });
