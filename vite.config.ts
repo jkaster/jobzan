@@ -12,4 +12,21 @@ export default defineConfig({
       "/api": "http://localhost:5001",
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('@mui/material')) {
+              return 'mui-vendor';
+            }
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            return 'vendor_rest';
+          }
+        },
+      },
+    },
+  },
 });
