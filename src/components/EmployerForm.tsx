@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import type { IEmployer } from "jobtypes";
 import { Button, TextField, Box } from "@mui/material";
+import { useForm } from "../hooks/useForm";
 
 /**
  * Props for the EmployerForm component.
@@ -22,7 +23,7 @@ interface IEmployerFormProps {
 const EmployerForm = ({ employer, onSubmit }: IEmployerFormProps) => {
   const { t } = useTranslation();
   const nameInputRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState<IEmployer>({
+  const { formData, handleChange, setFormData } = useForm<IEmployer>({
     id: employer?.id || "",
     name: employer?.name || "",
     latitude: employer?.latitude || 0,
@@ -40,20 +41,7 @@ const EmployerForm = ({ employer, onSubmit }: IEmployerFormProps) => {
     if (nameInputRef.current) {
       nameInputRef.current.focus();
     }
-  }, [employer]);
-
-  /**
-   * Handles changes to form input fields.
-   * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
-   */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]:
-        name === "latitude" || name === "longitude" ? parseFloat(value) : value,
-    });
-  };
+  }, [employer, setFormData]);
 
   /**
    * Handles form submission.

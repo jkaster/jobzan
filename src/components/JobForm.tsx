@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import type { IJob, IEmployer } from "jobtypes";
 import { Button, TextField, MenuItem, Box, Autocomplete } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useForm } from "../hooks/useForm";
 
 /**
  * Props for the JobForm component.
@@ -24,7 +25,7 @@ interface IJobFormProps {
 const JobForm = ({ job, onSubmit, employers }: IJobFormProps) => {
   const { t } = useTranslation();
   const titleInputRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState<IJob>({
+  const { formData, handleChange, setFormData } = useForm<IJob>({
     id: job?.id || "",
     employerId: job?.employerId || "",
     title: job?.title || "",
@@ -43,16 +44,7 @@ const JobForm = ({ job, onSubmit, employers }: IJobFormProps) => {
     if (titleInputRef.current) {
       titleInputRef.current.focus();
     }
-  }, [job]);
-
-  /**
-   * Handles changes to form input fields.
-   * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
-   */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  }, [job, setFormData]);
 
   /**
    * Handles form submission.
