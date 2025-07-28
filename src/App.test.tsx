@@ -132,13 +132,56 @@ describe("App", () => {
     expect(screen.queryByText('Software Engineer')).not.toBeInTheDocument();
   });
 
-  it.todo("filters jobs by commute type");
+  it('filters jobs by commute type', async () => {
+    render(<App />, { wrapper: AllTheProviders });
+    const filterCommute = screen.getByLabelText('Filter by Commute');
+    await userEvent.click(filterCommute);
+    await userEvent.click(screen.getByRole('option', { name: 'on_site' }));
+    expect(screen.getByText('QA Engineer')).toBeInTheDocument();
+    expect(screen.queryByText('Software Engineer')).not.toBeInTheDocument();
+  });
 
-  it.todo("searches jobs by title or employer name");
+  it('searches jobs by title or employer name', async () => {
+    render(<App />, { wrapper: AllTheProviders });
+    const searchInput = screen.getByLabelText('Search');
+    await userEvent.type(searchInput, 'Software Engineer');
+    expect(screen.getByText('Software Engineer')).toBeInTheDocument();
+    expect(screen.queryByText('QA Engineer')).not.toBeInTheDocument();
+  });
 
-  it.todo("sorts jobs by salary in ascending order");
+  it('sorts jobs by salary in ascending order', async () => {
+    render(<App />, { wrapper: AllTheProviders });
+    const sortBy = screen.getByLabelText('Sort By');
+    await userEvent.click(sortBy);
+    await userEvent.click(screen.getByRole('option', { name: 'salary' }));
+    const rows = screen.getAllByRole('row');
+    // The first row is the header, so we start from the second row
+    expect(rows[1].children[0]).toHaveTextContent('QA Engineer');
+    expect(rows[2].children[0]).toHaveTextContent('Software Engineer');
+  });
 
-  it.todo("sorts jobs by salary in descending order");
+  it('sorts jobs by salary in descending order', async () => {
+    render(<App />, { wrapper: AllTheProviders });
+    const sortBy = screen.getByLabelText('Sort By');
+    await userEvent.click(sortBy);
+    await userEvent.click(screen.getByRole('option', { name: 'salary' }));
+    const sortOrder = screen.getByLabelText('Sort Order');
+    await userEvent.click(sortOrder);
+    await userEvent.click(screen.getByRole('option', { name: 'descending' }));
+    const rows = screen.getAllByRole('row');
+    // The first row is the header, so we start from the second row
+    expect(rows[1].children[0]).toHaveTextContent('Product Manager');
+    expect(rows[2].children[0]).toHaveTextContent('DevOps Engineer');
+  });
 
-  it.todo("sorts jobs by employer name in ascending order");
+  it('sorts jobs by employer name in ascending order', async () => {
+    render(<App />, { wrapper: AllTheProviders });
+    const sortBy = screen.getByLabelText('Sort By');
+    await userEvent.click(sortBy);
+    await userEvent.click(screen.getByRole('option', { name: 'employer' }));
+    const rows = screen.getAllByRole('row');
+    // The first row is the header, so we start from the second row
+    expect(rows[1].children[0]).toHaveTextContent('DevOps Engineer');
+    expect(rows[2].children[0]).toHaveTextContent('QA Engineer');
+  });
 });
