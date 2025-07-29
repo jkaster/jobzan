@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 /**
  * A generic custom hook for managing form state and input changes.
@@ -20,9 +20,9 @@ export const useForm = <T extends Record<string, any>>(initialValues: T) => {
       let parsedValue: string | number | boolean = value;
 
       if (e.target instanceof HTMLInputElement) {
-        if (e.target.type === "checkbox") {
+        if (e.target.type === 'checkbox') {
           parsedValue = e.target.checked;
-        } else if (e.target.type === "number") {
+        } else if (e.target.type === 'number') {
           parsedValue = parseFloat(value);
         }
       }
@@ -32,7 +32,7 @@ export const useForm = <T extends Record<string, any>>(initialValues: T) => {
         [name]: parsedValue,
       }));
     },
-    []
+    [],
   );
 
   return { formData, handleChange, setFormData };

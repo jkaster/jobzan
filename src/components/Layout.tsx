@@ -1,5 +1,12 @@
-import React from "react";
-import { AppBar, Toolbar, Typography, Container, Box, Button } from "@mui/material";
+import React from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Box,
+  Button,
+} from '@mui/material';
 import { useAuth } from '../hooks/useAuth';
 
 /**
@@ -22,16 +29,16 @@ const Layout = ({ children }: ILayoutProps) => {
   const handleLogout = () => {
     // Call backend logout endpoint
     fetch('/api/auth/logout')
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         console.log(data.message);
         logout();
       })
-      .catch(error => console.error('Logout error:', error));
+      .catch((error) => console.error('Logout error:', error));
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -57,9 +64,9 @@ const Layout = ({ children }: ILayoutProps) => {
         sx={{
           py: 3,
           px: 2,
-          mt: "auto",
+          mt: 'auto',
           backgroundColor: (theme) =>
-            theme.palette.mode === "light"
+            theme.palette.mode === 'light'
               ? theme.palette.grey[200]
               : theme.palette.grey[800],
         }}

@@ -1,15 +1,15 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import { Pool, types } from "pg";
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import { Pool, types } from 'pg';
 import session from 'express-session';
 import passport from './config/passport';
 
 // Parse NUMERIC (OID 1700) as float to ensure correct data types from PostgreSQL
 types.setTypeParser(types.builtins.NUMERIC, parseFloat);
 
-import createJobsRouter from "./routes/jobs";
-import createEmployersRouter from "./routes/employers";
+import createJobsRouter from './routes/jobs';
+import createEmployersRouter from './routes/employers';
 import authRouter from './routes/auth';
 
 dotenv.config();
@@ -32,7 +32,7 @@ const port = process.env.PORT || 5000;
  */
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: 'http://localhost:5173',
     credentials: true, // Allow cookies to be sent with requests
   }),
 );
@@ -42,12 +42,14 @@ app.use(
 app.use(express.json()); // for parsing application/json
 
 // Session middleware
-app.use(session({
-  secret: process.env.JWT_SECRET || 'secret',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === 'production' } // Use secure cookies in production
-}));
+app.use(
+  session({
+    secret: process.env.JWT_SECRET || 'secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: process.env.NODE_ENV === 'production' }, // Use secure cookies in production
+  }),
+);
 
 // Passport middleware
 app.use(passport.initialize());
@@ -62,7 +64,7 @@ export const pool = new Pool({
   host: process.env.DB_HOST,
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
-  port: parseInt(process.env.DB_PORT || "5432", 10),
+  port: parseInt(process.env.DB_PORT || '5432', 10),
 });
 
 /**
@@ -70,17 +72,17 @@ export const pool = new Pool({
  */
 pool.connect((err, client, release) => {
   if (err) {
-    return console.error("Error acquiring client", err.stack);
+    return console.error('Error acquiring client', err.stack);
   }
   if (!client) {
-    return console.error("Client is undefined after acquiring");
+    return console.error('Client is undefined after acquiring');
   }
-  client.query("SELECT NOW()", (err, result) => {
+  client.query('SELECT NOW()', (err, result) => {
     release();
     if (err) {
-      return console.error("Error executing query", err.stack);
+      return console.error('Error executing query', err.stack);
     }
-    console.log("Connected to PostgreSQL database:", result.rows[0].now);
+    console.log('Connected to PostgreSQL database:', result.rows[0].now);
   });
 });
 
@@ -88,11 +90,11 @@ pool.connect((err, client, release) => {
 /**
  * Mounts the jobs router at /api/jobs.
  */
-app.use("/api/jobs", createJobsRouter(pool));
+app.use('/api/jobs', createJobsRouter(pool));
 /**
  * Mounts the employers router at /api/employers.
  */
-app.use("/api/employers", createEmployersRouter(pool));
+app.use('/api/employers', createEmployersRouter(pool));
 
 // Mount authentication routes
 app.use('/api/auth', authRouter);
@@ -102,8 +104,8 @@ app.use('/api/auth', authRouter);
  * @param req - Express request object.
  * @param res - Express response object.
  */
-app.get("/", (req, res) => {
-  res.send("Jobzan Backend API is running!");
+app.get('/', (req, res) => {
+  res.send('Jobzan Backend API is running!');
 });
 
 /**

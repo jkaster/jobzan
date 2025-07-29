@@ -10,31 +10,31 @@ import type { IJob, IEmployer } from 'jobtypes';
 import { AllTheProviders } from './tests/setup';
 
 // Mock react-i18next
-vi.mock("react-i18next", () => ({
+vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: { [key: string]: string } = {
-        app_title: "Job Application Tracker",
-        filter_status: "Filter by Status",
-        filter_commute: "Filter by Commute",
-        search: "Search",
-        sort_by: "Sort By",
-        sort_order: "Sort Order",
-        applied: "applied",
-        remote: "remote",
-        salary: "salary",
-        employer: "employer",
-        ascending: "ascending",
-        descending: "descending",
-        title: "title",
-        lead: "lead",
-        interview: "interview",
-        offer: "offer",
-        rejected: "rejected",
-        "on-site": "on-site",
-        hybrid: "hybrid",
-        all_statuses: "All Statuses",
-        all_commutes: "All Commutes",
+        app_title: 'Job Application Tracker',
+        filter_status: 'Filter by Status',
+        filter_commute: 'Filter by Commute',
+        search: 'Search',
+        sort_by: 'Sort By',
+        sort_order: 'Sort Order',
+        applied: 'applied',
+        remote: 'remote',
+        salary: 'salary',
+        employer: 'employer',
+        ascending: 'ascending',
+        descending: 'descending',
+        title: 'title',
+        lead: 'lead',
+        interview: 'interview',
+        offer: 'offer',
+        rejected: 'rejected',
+        'on-site': 'on-site',
+        hybrid: 'hybrid',
+        all_statuses: 'All Statuses',
+        all_commutes: 'All Commutes',
       };
       return translations[key] || key;
     },
@@ -42,7 +42,7 @@ vi.mock("react-i18next", () => ({
 }));
 
 // Mock useGeolocation
-vi.mock("./hooks/useGeolocation", () => ({
+vi.mock('./hooks/useGeolocation', () => ({
   default: () => ({
     userLocation: { latitude: 34.0522, longitude: -118.2437 },
     error: null,
@@ -50,48 +50,84 @@ vi.mock("./hooks/useGeolocation", () => ({
 }));
 
 const mockJobs: IJob[] = [
-  { id: '1', title: 'Software Engineer', employerId: '1', salary: 100000, status: 'applied', commute: 'remote', description: 'Develop software', notes: '' },
-  { id: '2', title: 'QA Engineer', employerId: '2', salary: 80000, status: 'interview', commute: 'on-site', description: 'Test software', notes: '' },
-  { id: '3', title: 'Product Manager', employerId: '1', salary: 120000, status: 'lead', commute: 'hybrid', description: 'Manage products', notes: '' },
-  { id: '4', title: 'DevOps Engineer', employerId: '3', salary: 110000, status: 'applied', commute: 'remote', description: 'Automate deployments', notes: '' },
+  {
+    id: '1',
+    title: 'Software Engineer',
+    employerId: '1',
+    salary: 100000,
+    status: 'applied',
+    commute: 'remote',
+    description: 'Develop software',
+    notes: '',
+  },
+  {
+    id: '2',
+    title: 'QA Engineer',
+    employerId: '2',
+    salary: 80000,
+    status: 'interview',
+    commute: 'on-site',
+    description: 'Test software',
+    notes: '',
+  },
+  {
+    id: '3',
+    title: 'Product Manager',
+    employerId: '1',
+    salary: 120000,
+    status: 'lead',
+    commute: 'hybrid',
+    description: 'Manage products',
+    notes: '',
+  },
+  {
+    id: '4',
+    title: 'DevOps Engineer',
+    employerId: '3',
+    salary: 110000,
+    status: 'applied',
+    commute: 'remote',
+    description: 'Automate deployments',
+    notes: '',
+  },
 ];
 
 const mockEmployers: IEmployer[] = [
   {
-    id: "1",
-    name: "Tech Solutions",
+    id: '1',
+    name: 'Tech Solutions',
     latitude: 34.0522,
     longitude: -118.2437,
-    contactName: "John Doe",
-    contactPhone: "123",
-    contactEmail: "john@example.com",
-    website: "tech.com",
+    contactName: 'John Doe',
+    contactPhone: '123',
+    contactEmail: 'john@example.com',
+    website: 'tech.com',
   },
   {
-    id: "2",
-    name: "Innovate Corp",
+    id: '2',
+    name: 'Innovate Corp',
     latitude: 34.0522,
     longitude: -118.2437,
-    contactName: "Jane Smith",
-    contactPhone: "456",
-    contactEmail: "jane@example.com",
-    website: "innovate.com",
+    contactName: 'Jane Smith',
+    contactPhone: '456',
+    contactEmail: 'jane@example.com',
+    website: 'innovate.com',
   },
   {
-    id: "3",
-    name: "Global Dynamics",
+    id: '3',
+    name: 'Global Dynamics',
     latitude: 34.0522,
     longitude: -118.2437,
-    contactName: "Peter Jones",
-    contactPhone: "789",
-    contactEmail: "peter@example.com",
-    website: "global.com",
+    contactName: 'Peter Jones',
+    contactPhone: '789',
+    contactEmail: 'peter@example.com',
+    website: 'global.com',
   },
 ];
 
-describe("App", () => {
+describe('App', () => {
   beforeEach(() => {
-    vi.spyOn(useJobDataModule, "default").mockReturnValue({
+    vi.spyOn(useJobDataModule, 'default').mockReturnValue({
       jobs: mockJobs,
       employers: mockEmployers,
       addJob: vi.fn(),
@@ -100,13 +136,17 @@ describe("App", () => {
       updateEmployer: vi.fn(),
       deleteEmployer: vi.fn(),
     });
-    vi.spyOn(useGeolocationModule, "default").mockReturnValue({
+    vi.spyOn(useGeolocationModule, 'default').mockReturnValue({
       userLocation: { latitude: 34.0522, longitude: -118.2437 },
       error: null,
     });
     vi.spyOn(useAuthModule, 'useAuth').mockReturnValue({
       isAuthenticated: true,
-      user: { id: 'test-user', email: 'test@example.com', displayName: 'Test User' },
+      user: {
+        id: 'test-user',
+        email: 'test@example.com',
+        displayName: 'Test User',
+      },
       token: 'test-token',
       login: vi.fn(),
       logout: vi.fn(),
@@ -117,10 +157,10 @@ describe("App", () => {
     vi.restoreAllMocks();
   });
 
-  it("renders the main application title", async () => {
+  it('renders the main application title', async () => {
     render(<App />, { wrapper: AllTheProviders });
     await waitFor(() =>
-      expect(screen.getByTestId("app-title")).toBeInTheDocument(),
+      expect(screen.getByTestId('app-title')).toBeInTheDocument(),
     );
   });
 

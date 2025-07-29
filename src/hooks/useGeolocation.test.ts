@@ -1,15 +1,15 @@
 import { renderHook, act } from '@testing-library/react';
 import { vi } from 'vitest';
-import useGeolocation from "./useGeolocation";
+import useGeolocation from './useGeolocation';
 
-describe("useGeolocation", () => {
+describe('useGeolocation', () => {
   const mockGeolocation = {
     watchPosition: vi.fn(),
     clearWatch: vi.fn(),
   };
 
   beforeEach(() => {
-    Object.defineProperty(window, "navigator", {
+    Object.defineProperty(window, 'navigator', {
       value: {
         geolocation: {
           watchPosition: mockGeolocation.watchPosition,
@@ -37,19 +37,19 @@ describe("useGeolocation", () => {
   });
 
   it("returns an error when the browser's geolocation API is not available", () => {
-    vi.spyOn(navigator, "geolocation", "get").mockReturnValueOnce(null as any);
+    vi.spyOn(navigator, 'geolocation', 'get').mockReturnValueOnce(null as any);
     const { result } = renderHook(() => useGeolocation());
     expect(result.current.error).toBe(
-      "Geolocation is not supported by your browser",
+      'Geolocation is not supported by your browser',
     );
   });
 
-  it("returns an error when the user denies permission to access their location", () => {
+  it('returns an error when the user denies permission to access their location', () => {
     const { result } = renderHook(() => useGeolocation());
     const errorCallback = mockGeolocation.watchPosition.mock.calls[0][1];
     act(() => {
-      errorCallback({ message: "User denied Geolocation" });
+      errorCallback({ message: 'User denied Geolocation' });
     });
-    expect(result.current.error).toBe("User denied Geolocation");
+    expect(result.current.error).toBe('User denied Geolocation');
   });
 });

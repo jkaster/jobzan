@@ -1,7 +1,7 @@
-import { useState, Suspense, lazy } from "react";
-import useGeolocation from "./hooks/useGeolocation";
-import useJobData from "./hooks/useJobData";
-import Layout from "./components/Layout";
+import { useState, Suspense, lazy } from 'react';
+import useGeolocation from './hooks/useGeolocation';
+import useJobData from './hooks/useJobData';
+import Layout from './components/Layout';
 import {
   Typography,
   Button,
@@ -17,15 +17,15 @@ import {
   InputLabel,
   Select,
   type SelectChangeEvent,
-} from "@mui/material";
-import type { IJob, IEmployer } from "jobtypes";
-import { useTranslation } from "react-i18next";
+} from '@mui/material';
+import type { IJob, IEmployer } from 'jobtypes';
+import { useTranslation } from 'react-i18next';
 
-const JobList = lazy(() => import("./components/JobList"));
-const JobForm = lazy(() => import("./components/JobForm"));
-const JobDetails = lazy(() => import("./components/JobDetails"));
-const EmployerList = lazy(() => import("./components/EmployerList"));
-const EmployerForm = lazy(() => import("./components/EmployerForm"));
+const JobList = lazy(() => import('./components/JobList'));
+const JobForm = lazy(() => import('./components/JobForm'));
+const JobDetails = lazy(() => import('./components/JobDetails'));
+const EmployerList = lazy(() => import('./components/EmployerList'));
+const EmployerForm = lazy(() => import('./components/EmployerForm'));
 
 /**
  * Authenticated application component.
@@ -101,37 +101,37 @@ function AuthenticatedApp() {
    * Filter status for jobs.
    * @type {string}
    */
-  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [filterStatus, setFilterStatus] = useState<string>('all');
   /**
    * Filter commute type for jobs.
    * @type {string}
    */
-  const [filterCommute, setFilterCommute] = useState<string>("all");
+  const [filterCommute, setFilterCommute] = useState<string>('all');
   /**
    * Field to sort jobs by.
    * @type {keyof IJob | 'employerName'}
    */
-  const [sortField, setSortField] = useState<keyof IJob | "employerName">(
-    "title",
+  const [sortField, setSortField] = useState<keyof IJob | 'employerName'>(
+    'title',
   );
   /**
    * Sort order for jobs.
    * @type {'asc' | 'desc'}
    */
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   /**
    * Search query for jobs.
    * @type {string}
    */
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   /**
    * Logs current employer and job data to the console for debugging.
    */
   const handleLogData = () => {
-    console.log("--- Current Employers Data ---");
+    console.log('--- Current Employers Data ---');
     console.log(JSON.stringify(employers, null, 2));
-    console.log("--- Current Jobs Data ---");
+    console.log('--- Current Jobs Data ---');
     console.log(JSON.stringify(jobs, null, 2));
   };
 
@@ -207,7 +207,7 @@ function AuthenticatedApp() {
   const handleDeleteEmployer = (id: string) => {
     if (
       window.confirm(
-        "Are you sure you want to delete this employer and all associated jobs?",
+        'Are you sure you want to delete this employer and all associated jobs?',
       )
     ) {
       deleteEmployer(id);
@@ -275,11 +275,11 @@ function AuthenticatedApp() {
    */
   const filteredJobs = jobs.filter((job: IJob) => {
     const employer = employers.find((emp) => emp.id === job.employerId);
-    const matchesStatus = filterStatus === "all" || job.status === filterStatus;
+    const matchesStatus = filterStatus === 'all' || job.status === filterStatus;
     const matchesCommute =
-      filterCommute === "all" || job.commute === filterCommute;
+      filterCommute === 'all' || job.commute === filterCommute;
     const matchesSearch =
-      searchQuery === "" ||
+      searchQuery === '' ||
       job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (employer &&
         employer.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -292,15 +292,15 @@ function AuthenticatedApp() {
    * @type {IJob[]}
    */
   const sortedJobs = [...filteredJobs].sort((a, b) => {
-    let compareA: string | number = "";
-    let compareB: string | number = "";
+    let compareA: string | number = '';
+    let compareB: string | number = '';
 
-    if (sortField === "employerName") {
+    if (sortField === 'employerName') {
       compareA =
-        employers.find((emp: IEmployer) => emp.id === a.employerId)?.name || "";
+        employers.find((emp: IEmployer) => emp.id === a.employerId)?.name || '';
       compareB =
-        employers.find((emp: IEmployer) => emp.id === b.employerId)?.name || "";
-    } else if (sortField === "salary") {
+        employers.find((emp: IEmployer) => emp.id === b.employerId)?.name || '';
+    } else if (sortField === 'salary') {
       compareA = a.salary;
       compareB = b.salary;
     } else {
@@ -309,10 +309,10 @@ function AuthenticatedApp() {
     }
 
     if (compareA < compareB) {
-      return sortOrder === "asc" ? -1 : 1;
+      return sortOrder === 'asc' ? -1 : 1;
     }
     if (compareA > compareB) {
-      return sortOrder === "asc" ? 1 : -1;
+      return sortOrder === 'asc' ? 1 : -1;
     }
     return 0;
   });
@@ -325,17 +325,17 @@ function AuthenticatedApp() {
         gutterBottom
         data-testid="app-title"
       >
-        {t("app_title")}
+        {t('app_title')}
       </Typography>
 
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={currentTab}
           onChange={handleTabChange}
           aria-label="basic tabs example"
         >
-          <Tab label={t("jobs")} />
-          <Tab label={t("employers")} />
+          <Tab label={t('jobs')} />
+          <Tab label={t('employers')} />
         </Tabs>
       </Box>
 
@@ -346,7 +346,7 @@ function AuthenticatedApp() {
             color="primary"
             onClick={() => handleOpenJobForm()}
           >
-            {t("add_job")}
+            {t('add_job')}
           </Button>
           <Button
             variant="contained"
@@ -354,12 +354,12 @@ function AuthenticatedApp() {
             onClick={handleLogData}
             sx={{ ml: 2 }}
           >
-            {t("log_data_to_console")}
+            {t('log_data_to_console')}
           </Button>
 
-          <Box sx={{ mt: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
+          <Box sx={{ mt: 2, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             <TextField
-              label={t("search")}
+              label={t('search')}
               variant="outlined"
               value={searchQuery}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -369,67 +369,67 @@ function AuthenticatedApp() {
             />
             <FormControl sx={{ width: 150 }}>
               <InputLabel id="filter-status-label">
-                {t("filter_status")}
+                {t('filter_status')}
               </InputLabel>
               <Select
                 labelId="filter-status-label"
                 value={filterStatus}
-                label={t("filter_status")}
+                label={t('filter_status')}
                 onChange={(e) => setFilterStatus(e.target.value as string)}
               >
-                <MenuItem value="all">{t("all_statuses")}</MenuItem>
-                <MenuItem value="lead">{t("lead")}</MenuItem>
-                <MenuItem value="applied">{t("applied")}</MenuItem>
-                <MenuItem value="interview">{t("interview")}</MenuItem>
-                <MenuItem value="offer">{t("offer")}</MenuItem>
-                <MenuItem value="rejected">{t("rejected")}</MenuItem>
+                <MenuItem value="all">{t('all_statuses')}</MenuItem>
+                <MenuItem value="lead">{t('lead')}</MenuItem>
+                <MenuItem value="applied">{t('applied')}</MenuItem>
+                <MenuItem value="interview">{t('interview')}</MenuItem>
+                <MenuItem value="offer">{t('offer')}</MenuItem>
+                <MenuItem value="rejected">{t('rejected')}</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ width: 150 }}>
               <InputLabel id="filter-commute-label">
-                {t("filter_commute")}
+                {t('filter_commute')}
               </InputLabel>
               <Select
                 labelId="filter-commute-label"
                 value={filterCommute}
-                label={t("filter_commute")}
+                label={t('filter_commute')}
                 onChange={(e) => setFilterCommute(e.target.value as string)}
               >
-                <MenuItem value="all">{t("all_commutes")}</MenuItem>
-                <MenuItem value="remote">{t("remote")}</MenuItem>
-                <MenuItem value="hybrid">{t("hybrid")}</MenuItem>
-                <MenuItem value="on-site">{t("on_site")}</MenuItem>
+                <MenuItem value="all">{t('all_commutes')}</MenuItem>
+                <MenuItem value="remote">{t('remote')}</MenuItem>
+                <MenuItem value="hybrid">{t('hybrid')}</MenuItem>
+                <MenuItem value="on-site">{t('on_site')}</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ width: 150 }}>
-              <InputLabel id="sort-by-label">{t("sort_by")}</InputLabel>
+              <InputLabel id="sort-by-label">{t('sort_by')}</InputLabel>
               <Select
                 labelId="sort-by-label"
                 value={sortField}
-                label={t("sort_by")}
+                label={t('sort_by')}
                 onChange={(e) =>
-                  setSortField(e.target.value as keyof IJob | "employerName")
+                  setSortField(e.target.value as keyof IJob | 'employerName')
                 }
               >
-                <MenuItem value="title">{t("title")}</MenuItem>
-                <MenuItem value="employerName">{t("employer")}</MenuItem>
-                <MenuItem value="salary">{t("salary")}</MenuItem>
-                <MenuItem value="status">{t("status")}</MenuItem>
-                <MenuItem value="commute">{t("commute")}</MenuItem>
+                <MenuItem value="title">{t('title')}</MenuItem>
+                <MenuItem value="employerName">{t('employer')}</MenuItem>
+                <MenuItem value="salary">{t('salary')}</MenuItem>
+                <MenuItem value="status">{t('status')}</MenuItem>
+                <MenuItem value="commute">{t('commute')}</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ width: 150 }}>
-              <InputLabel id="sort-order-label">{t("sort_order")}</InputLabel>
+              <InputLabel id="sort-order-label">{t('sort_order')}</InputLabel>
               <Select
                 labelId="sort-order-label"
                 value={sortOrder}
-                label={t("sort_order")}
+                label={t('sort_order')}
                 onChange={(e: SelectChangeEvent) =>
-                  setSortOrder(e.target.value as "asc" | "desc")
+                  setSortOrder(e.target.value as 'asc' | 'desc')
                 }
               >
-                <MenuItem value="asc">{t("ascending")}</MenuItem>
-                <MenuItem value="desc">{t("descending")}</MenuItem>
+                <MenuItem value="asc">{t('ascending')}</MenuItem>
+                <MenuItem value="desc">{t('descending')}</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -459,7 +459,7 @@ function AuthenticatedApp() {
             color="primary"
             onClick={() => handleOpenEmployerForm()}
           >
-            {t("add_employer")}
+            {t('add_employer')}
           </Button>
           <Suspense fallback={<div>Loading Employers...</div>}>
             <EmployerList
@@ -486,10 +486,10 @@ function AuthenticatedApp() {
       >
         <DialogTitle id="form-dialog-title">
           {selectedJob
-            ? t("edit_job")
+            ? t('edit_job')
             : selectedEmployer
-              ? t("edit_employer")
-              : t("add_new")}
+              ? t('edit_employer')
+              : t('add_new')}
         </DialogTitle>
         <DialogContent>
           <Suspense fallback={<div>Loading Form...</div>}>
@@ -517,7 +517,7 @@ function AuthenticatedApp() {
         fullWidth
         aria-labelledby="details-dialog-title"
       >
-        <DialogTitle id="details-dialog-title">{t("job_details")}</DialogTitle>
+        <DialogTitle id="details-dialog-title">{t('job_details')}</DialogTitle>
         <DialogContent>
           <Suspense fallback={<div>Loading Details...</div>}>
             {selectedJob && (

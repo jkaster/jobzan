@@ -26,82 +26,126 @@ passport.serializeUser((user: IUserProfile, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(async (id: string, done: (err: Error | null, user?: IUserProfile) => void) => {
-  try {
-    const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
-    done(null, result.rows[0]);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      done(err);
-    } else {
-      done(new Error('An unknown error occurred'));
+passport.deserializeUser(
+  async (
+    id: string,
+    done: (err: Error | null, user?: IUserProfile) => void,
+  ) => {
+    try {
+      const result = await pool.query('SELECT * FROM users WHERE id = $1', [
+        id,
+      ]);
+      done(null, result.rows[0]);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        done(err);
+      } else {
+        done(new Error('An unknown error occurred'));
+      }
     }
-  }
-});
+  },
+);
 
 // Google Strategy
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID || '',
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-  callbackURL: '/api/auth/google/callback',
-  scope: ['profile', 'email'],
-}, async (accessToken: string, refreshToken: string, profile: import('passport-google-oauth20').Profile, done: (err: Error | null, user?: IUserProfile) => void) => {
-  try {
-    const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
-    if (!email) {
-      return done(new Error('No email found for Google profile'), undefined);
-    }
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      callbackURL: '/api/auth/google/callback',
+      scope: ['profile', 'email'],
+    },
+    async (
+      accessToken: string,
+      refreshToken: string,
+      profile: import('passport-google-oauth20').Profile,
+      done: (err: Error | null, user?: IUserProfile) => void,
+    ) => {
+      try {
+        const email =
+          profile.emails && profile.emails.length > 0
+            ? profile.emails[0].value
+            : null;
+        if (!email) {
+          return done(
+            new Error('No email found for Google profile'),
+            undefined,
+          );
+        }
 
-    let user = await pool.query('SELECT * FROM users WHERE provider = $1 AND provider_id = $2', ['google', profile.id]);
+        let user = await pool.query(
+          'SELECT * FROM users WHERE provider = $1 AND provider_id = $2',
+          ['google', profile.id],
+        );
 
-    if (user.rows.length === 0) {
-      // User not found, create a new one
-      user = await pool.query(
-        'INSERT INTO users (id, email, displayName, provider, provider_id) VALUES ($1, $2, $3, $4, $5) RETURNING * ',
-        [profile.id, email, profile.displayName, 'google', profile.id]
-      );
-    }
-    done(null, user.rows[0]);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      done(err, undefined);
-    } else {
-      done(new Error('An unknown error occurred'), undefined);
-    }
-  }
-}));
+        if (user.rows.length === 0) {
+          // User not found, create a new one
+          user = await pool.query(
+            'INSERT INTO users (id, email, displayName, provider, provider_id) VALUES ($1, $2, $3, $4, $5) RETURNING * ',
+            [profile.id, email, profile.displayName, 'google', profile.id],
+          );
+        }
+        done(null, user.rows[0]);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          done(err, undefined);
+        } else {
+          done(new Error('An unknown error occurred'), undefined);
+        }
+      }
+    },
+  ),
+);
 
 // GitHub Strategy
-passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_CLIENT_ID || '',
-  clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
-  callbackURL: '/api/auth/github/callback',
-  scope: ['user:email'],
-}, async (accessToken: string, refreshToken: string, profile: import('passport-github2').Profile, done: (err: Error | null, user?: IUserProfile) => void) => {
-  try {
-    const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
-    if (!email) {
-      return done(new Error('No email found for GitHub profile'), undefined);
-    }
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID || '',
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
+      callbackURL: '/api/auth/github/callback',
+      scope: ['user:email'],
+    },
+    async (
+      accessToken: string,
+      refreshToken: string,
+      profile: import('passport-github2').Profile,
+      done: (err: Error | null, user?: IUserProfile) => void,
+    ) => {
+      try {
+        const email =
+          profile.emails && profile.emails.length > 0
+            ? profile.emails[0].value
+            : null;
+        if (!email) {
+          return done(
+            new Error('No email found for GitHub profile'),
+            undefined,
+          );
+        }
 
-    let user = await pool.query('SELECT * FROM users WHERE provider = $1 AND provider_id = $2', ['github', profile.id]);
+        let user = await pool.query(
+          'SELECT * FROM users WHERE provider = $1 AND provider_id = $2',
+          ['github', profile.id],
+        );
 
-    if (user.rows.length === 0) {
-      // User not found, create a new one
-      user = await pool.query(
-        'INSERT INTO users (id, email, displayName, provider, provider_id) VALUES ($1, $2, $3, $4, $5) RETURNING * ',
-        [profile.id, email, profile.displayName, 'github', profile.id]
-      );
-    }
-    done(null, user.rows[0]);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      done(err, undefined);
-    }
-    else {
-      done(new Error('An unknown error occurred'), undefined);
-    }
-  }
-}));
+        if (user.rows.length === 0) {
+          // User not found, create a new one
+          user = await pool.query(
+            'INSERT INTO users (id, email, displayName, provider, provider_id) VALUES ($1, $2, $3, $4, $5) RETURNING * ',
+            [profile.id, email, profile.displayName, 'github', profile.id],
+          );
+        }
+        done(null, user.rows[0]);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          done(err, undefined);
+        } else {
+          done(new Error('An unknown error occurred'), undefined);
+        }
+      }
+    },
+  ),
+);
 
 export default passport;

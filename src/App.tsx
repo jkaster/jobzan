@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import { useAuth } from './hooks/useAuth';
@@ -29,7 +29,10 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/*" element={isAuthenticated ? <AuthenticatedApp /> : <Login />} />
+      <Route
+        path="/*"
+        element={isAuthenticated ? <AuthenticatedApp /> : <Login />}
+      />
     </Routes>
   );
 }

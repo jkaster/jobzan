@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
-import type { IJob, IEmployer } from "jobtypes";
-import { Typography, Box, Paper } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import { useEffect, useRef } from 'react';
+import type { IJob, IEmployer } from 'jobtypes';
+import { Typography, Box, Paper } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Props for the JobDetails component.
@@ -33,7 +33,7 @@ const JobDetails = ({ job, employers }: IJobDetailsProps) => {
   }, [job]);
 
   if (!employer) {
-    return <Typography color="error">{t("employer_not_found")}</Typography>;
+    return <Typography color="error">{t('employer_not_found')}</Typography>;
   }
 
   return (
@@ -42,28 +42,28 @@ const JobDetails = ({ job, employers }: IJobDetailsProps) => {
         {job.title}
       </Typography>
       <Paper elevation={1} sx={{ p: 2, mb: 2 }}>
-        <Typography variant="h6">{t("employer_details")}</Typography>
+        <Typography variant="h6">{t('employer_details')}</Typography>
         <Typography>
-          <strong>{t("company_name")}:</strong> {employer.name}
+          <strong>{t('company_name')}:</strong> {employer.name}
         </Typography>
         <Typography>
-          <strong>{t("latitude")}:</strong> {employer.latitude}
+          <strong>{t('latitude')}:</strong> {employer.latitude}
         </Typography>
         <Typography>
-          <strong>{t("longitude")}:</strong> {employer.longitude}
+          <strong>{t('longitude')}:</strong> {employer.longitude}
         </Typography>
         <Typography>
-          <strong>{t("contact_name")}:</strong> {employer.contactName}
+          <strong>{t('contact_name')}:</strong> {employer.contactName}
         </Typography>
         <Typography>
-          <strong>{t("contact_phone")}:</strong> {employer.contactPhone}
+          <strong>{t('contact_phone')}:</strong> {employer.contactPhone}
         </Typography>
         <Typography>
-          <strong>{t("contact_email")}:</strong> {employer.contactEmail}
+          <strong>{t('contact_email')}:</strong> {employer.contactEmail}
         </Typography>
         {employer.website && (
           <Typography>
-            <strong>{t("website")}:</strong>{" "}
+            <strong>{t('website')}:</strong>{' '}
             <a
               href={employer.website}
               target="_blank"
@@ -75,25 +75,25 @@ const JobDetails = ({ job, employers }: IJobDetailsProps) => {
         )}
       </Paper>
       <Paper elevation={1} sx={{ p: 2 }}>
-        <Typography variant="h6">{t("job_details")}</Typography>
+        <Typography variant="h6">{t('job_details')}</Typography>
         <Typography>
-          <strong>{t("salary")}:</strong> ${job.salary.toLocaleString()}
+          <strong>{t('salary')}:</strong> ${job.salary.toLocaleString()}
         </Typography>
         <Typography>
-          <strong>{t("status")}:</strong> {job.status}
+          <strong>{t('status')}:</strong> {job.status}
         </Typography>
         <Typography>
-          <strong>{t("commute")}:</strong> {job.commute}
+          <strong>{t('commute')}:</strong> {job.commute}
         </Typography>
         <Typography>
-          <strong>{t("description")}:</strong> {job.description}
+          <strong>{t('description')}:</strong> {job.description}
         </Typography>
         <Typography>
-          <strong>{t("notes")}:</strong> {job.notes}
+          <strong>{t('notes')}:</strong> {job.notes}
         </Typography>
         {job.jobDescriptionLink && (
           <Typography>
-            <strong>{t("job")}:</strong>{" "}
+            <strong>{t('job')}:</strong>{' '}
             <a
               href={job.jobDescriptionLink}
               target="_blank"

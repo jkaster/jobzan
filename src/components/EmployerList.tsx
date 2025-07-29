@@ -1,5 +1,5 @@
-import React from "react";
-import type { IEmployer } from "jobtypes";
+import React from 'react';
+import type { IEmployer } from 'jobtypes';
 import {
   Table,
   TableBody,
@@ -10,8 +10,8 @@ import {
   Paper,
   Button,
   TablePagination,
-} from "@mui/material";
-import { useTranslation } from "react-i18next";
+} from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Props for the EmployerList component.
@@ -59,18 +59,18 @@ const EmployerList = ({
         <Table sx={{ minWidth: 650 }} aria-label="employer table">
           <TableHead>
             <TableRow>
-              <TableCell>{t("company_name")}</TableCell>
-              <TableCell>{t("contact_name")}</TableCell>
-              <TableCell>{t("contact_email")}</TableCell>
-              <TableCell>{t("website")}</TableCell>
-              <TableCell>{t("actions")}</TableCell>
+              <TableCell>{t('company_name')}</TableCell>
+              <TableCell>{t('contact_name')}</TableCell>
+              <TableCell>{t('contact_email')}</TableCell>
+              <TableCell>{t('website')}</TableCell>
+              <TableCell>{t('actions')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {employers.map((employer: IEmployer) => (
               <TableRow
                 key={employer.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {employer.name}
@@ -84,10 +84,10 @@ const EmployerList = ({
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {employer.website.replace(/^(https?:\/\/\/)/, "")}
+                      {employer.website.replace(/^(https?:\/\/\/)/, '')}
                     </a>
                   ) : (
-                    "N/A"
+                    'N/A'
                   )}
                 </TableCell>
                 <TableCell>
@@ -99,11 +99,11 @@ const EmployerList = ({
                       onEdit(employer);
                     }}
                     sx={{ mr: 1 }}
-                    aria-label={t("edit_employer_aria_label", {
+                    aria-label={t('edit_employer_aria_label', {
                       employerName: employer.name,
                     })}
                   >
-                    {t("edit")}
+                    {t('edit')}
                   </Button>
                   <Button
                     variant="outlined"
@@ -113,11 +113,11 @@ const EmployerList = ({
                       e.stopPropagation();
                       onDelete(employer.id);
                     }}
-                    aria-label={t("delete_employer_aria_label", {
+                    aria-label={t('delete_employer_aria_label', {
                       employerName: employer.name,
                     })}
                   >
-                    {t("delete")}
+                    {t('delete')}
                   </Button>
                 </TableCell>
               </TableRow>

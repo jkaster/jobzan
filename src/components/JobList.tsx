@@ -1,5 +1,5 @@
-import React from "react";
-import type { IJob, IEmployer } from "jobtypes";
+import React from 'react';
+import type { IJob, IEmployer } from 'jobtypes';
 import {
   Table,
   TableBody,
@@ -10,8 +10,8 @@ import {
   Paper,
   Button,
   TablePagination,
-} from "@mui/material";
-import { useTranslation } from "react-i18next";
+} from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Props for the JobList component.
@@ -93,13 +93,13 @@ const JobList = ({
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>{t("title")}</TableCell>
-              <TableCell>{t("employer")}</TableCell>
-              <TableCell>{t("salary")}</TableCell>
-              <TableCell>{t("status")}</TableCell>
-              <TableCell>{t("commute")}</TableCell>
+              <TableCell>{t('title')}</TableCell>
+              <TableCell>{t('employer')}</TableCell>
+              <TableCell>{t('salary')}</TableCell>
+              <TableCell>{t('status')}</TableCell>
+              <TableCell>{t('commute')}</TableCell>
               <TableCell>Distance (miles)</TableCell>
-              <TableCell>{t("actions")}</TableCell>
+              <TableCell>{t('actions')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -115,21 +115,21 @@ const JobList = ({
                       employer.latitude,
                       employer.longitude,
                     )
-                  : "N/A";
+                  : 'N/A';
 
               return (
                 <TableRow
                   key={job.id}
                   sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    cursor: "pointer",
+                    '&:last-child td, &:last-child th': { border: 0 },
+                    cursor: 'pointer',
                   }}
                   onClick={() => onViewDetails(job)}
                 >
                   <TableCell component="th" scope="row">
                     {job.title}
                   </TableCell>
-                  <TableCell>{employer?.name || "N/A"}</TableCell>
+                  <TableCell>{employer?.name || 'N/A'}</TableCell>
                   <TableCell>${job.salary.toLocaleString()}</TableCell>
                   <TableCell>{job.status}</TableCell>
                   <TableCell>{job.commute}</TableCell>
@@ -142,12 +142,12 @@ const JobList = ({
                         e.stopPropagation();
                         onEdit(job);
                       }}
-                      aria-label={t("edit_job_aria_label", {
+                      aria-label={t('edit_job_aria_label', {
                         jobTitle: job.title,
-                        employerName: employer?.name || "",
+                        employerName: employer?.name || '',
                       })}
                     >
-                      {t("edit")}
+                      {t('edit')}
                     </Button>
                     {job.jobDescriptionLink && (
                       <Button
@@ -157,12 +157,12 @@ const JobList = ({
                         href={job.jobDescriptionLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={t("view_job_description_aria_label", {
+                        aria-label={t('view_job_description_aria_label', {
                           jobTitle: job.title,
-                          employerName: employer?.name || "",
+                          employerName: employer?.name || '',
                         })}
                       >
-                        {t("job")}
+                        {t('job')}
                       </Button>
                     )}
                   </TableCell>

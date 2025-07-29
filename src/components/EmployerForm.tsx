@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import type { IEmployer } from "jobtypes";
-import { Button, TextField, Box } from "@mui/material";
-import { useForm } from "../hooks/useForm";
+import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { IEmployer } from 'jobtypes';
+import { Button, TextField, Box } from '@mui/material';
+import { useForm } from '../hooks/useForm';
 
 /**
  * Props for the EmployerForm component.
@@ -24,14 +24,14 @@ const EmployerForm = ({ employer, onSubmit }: IEmployerFormProps) => {
   const { t } = useTranslation();
   const nameInputRef = useRef<HTMLInputElement>(null);
   const { formData, handleChange, setFormData } = useForm<IEmployer>({
-    id: employer?.id || "",
-    name: employer?.name || "",
+    id: employer?.id || '',
+    name: employer?.name || '',
     latitude: employer?.latitude || 0,
     longitude: employer?.longitude || 0,
-    contactName: employer?.contactName || "",
-    contactPhone: employer?.contactPhone || "",
-    contactEmail: employer?.contactEmail || "",
-    website: employer?.website || "",
+    contactName: employer?.contactName || '',
+    contactPhone: employer?.contactPhone || '',
+    contactEmail: employer?.contactEmail || '',
+    website: employer?.website || '',
   });
 
   useEffect(() => {
@@ -114,7 +114,7 @@ const EmployerForm = ({ employer, onSubmit }: IEmployerFormProps) => {
         margin="normal"
       />
       <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-        {employer ? t("update_employer") : t("add_employer")}
+        {employer ? t('update_employer') : t('add_employer')}
       </Button>
     </Box>
   );

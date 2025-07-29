@@ -1,4 +1,13 @@
-import { vi, describe, it, expect, beforeAll, afterEach, afterAll } from 'vitest';
+import {
+  vi,
+  describe,
+  it,
+  expect,
+  beforeEach,
+  beforeAll,
+  afterEach,
+  afterAll,
+} from 'vitest';
 import { fetchWithRetry } from './fetchWithRetry';
 import { server } from '../mocks/server';
 import { http, HttpResponse } from 'msw';
@@ -30,13 +39,16 @@ describe('fetchWithRetry', () => {
     expect(await response.text()).toBe('Success');
   });
 
-  it.skip('should retry on 503 and eventually succeed', async () => {
+  it('should retry on 503 and eventually succeed', async () => {
     let attempt = 0;
     server.use(
       http.get('https://example.com/retryable', () => {
         attempt++;
         if (attempt < 3) {
-          return HttpResponse.text('Service Unavailable', { status: 503, headers: { 'Retry-After': '1' } });
+          return HttpResponse.text('Service Unavailable', {
+            status: 503,
+            headers: { 'Retry-After': '1' },
+          });
         } else {
           return HttpResponse.text('Success after retries', { status: 200 });
         }
@@ -55,7 +67,7 @@ describe('fetchWithRetry', () => {
     expect(attempt).toBe(3);
   });
 
-  it.skip('should fail after max retries', async () => {
+  it('should fail after max retries', async () => {
     server.use(
       http.get('https://example.com/fail-always', () => {
         return HttpResponse.text('Service Unavailable', { status: 503 });
@@ -66,10 +78,12 @@ describe('fetchWithRetry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrow('Request failed after 3 retries: 503 Service Unavailable');
+    await expect(promise).rejects.toThrow(
+      'Request failed after 3 retries: 503 Service Unavailable',
+    );
   });
 
-  it.skip('should not retry on a 404 error', async () => {
+  it('should not retry on a 404 error', async () => {
     server.use(
       http.get('https://example.com/not-found', () => {
         return HttpResponse.text('Not Found', { status: 404 });
@@ -78,7 +92,9 @@ describe('fetchWithRetry', () => {
 
     const promise = fetchWithRetry('https://example.com/not-found');
 
-    await expect(promise).rejects.toThrow('Request failed with status 404: Not Found');
+    await expect(promise).rejects.toThrow(
+      'Request failed with status 404: Not Found',
+    );
   });
 
   it.skip('should retry on network error and eventually fail', async () => {

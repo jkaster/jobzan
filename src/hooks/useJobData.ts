@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import type { IJob, IEmployer } from "jobtypes";
-import { fetchWithRetry } from "../utils/fetchWithRetry";
+import { useState, useEffect } from 'react';
+import type { IJob, IEmployer } from 'jobtypes';
+import { fetchWithRetry } from '../utils/fetchWithRetry';
 
-const API_BASE_URL = "/api"; // Use proxy for backend URL
+const API_BASE_URL = '/api'; // Use proxy for backend URL
 
 /**
  * A custom React hook for managing job and employer data, including fetching, adding, updating, and deleting.
@@ -27,7 +27,7 @@ const useJobData = () => {
         const data = await response.json();
         setJobs(data);
       } catch (error) {
-        console.error("Error fetching jobs:", error);
+        console.error('Error fetching jobs:', error);
       }
     };
 
@@ -43,7 +43,7 @@ const useJobData = () => {
         const data = await response.json();
         setEmployers(data);
       } catch (error) {
-        console.error("Error fetching employers:", error);
+        console.error('Error fetching employers:', error);
       }
     };
 
@@ -58,8 +58,8 @@ const useJobData = () => {
   const addJob = async (job: IJob) => {
     try {
       const response = await fetchWithRetry(`${API_BASE_URL}/jobs`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(job),
       });
       if (!response.ok) {
@@ -68,7 +68,7 @@ const useJobData = () => {
       const newJob = await response.json();
       setJobs((prevJobs) => [...prevJobs, newJob]);
     } catch (error) {
-      console.error("Error adding job:", error);
+      console.error('Error adding job:', error);
     }
   };
 
@@ -79,8 +79,8 @@ const useJobData = () => {
   const updateJob = async (job: IJob) => {
     try {
       const response = await fetchWithRetry(`${API_BASE_URL}/jobs/${job.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(job),
       });
       if (!response.ok) {
@@ -91,7 +91,7 @@ const useJobData = () => {
         prevJobs.map((j) => (j.id === updatedJob.id ? updatedJob : j)),
       );
     } catch (error) {
-      console.error("Error updating job:", error);
+      console.error('Error updating job:', error);
     }
   };
 
@@ -102,8 +102,8 @@ const useJobData = () => {
   const addEmployer = async (employer: IEmployer) => {
     try {
       const response = await fetchWithRetry(`${API_BASE_URL}/employers`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(employer),
       });
       if (!response.ok) {
@@ -112,7 +112,7 @@ const useJobData = () => {
       const newEmployer = await response.json();
       setEmployers((prevEmployers) => [...prevEmployers, newEmployer]);
     } catch (error) {
-      console.error("Error adding employer:", error);
+      console.error('Error adding employer:', error);
     }
   };
 
@@ -125,8 +125,8 @@ const useJobData = () => {
       const response = await fetchWithRetry(
         `${API_BASE_URL}/employers/${employer.id}`,
         {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(employer),
         },
       );
@@ -140,7 +140,7 @@ const useJobData = () => {
         ),
       );
     } catch (error) {
-      console.error("Error updating employer:", error);
+      console.error('Error updating employer:', error);
     }
   };
 
@@ -151,14 +151,14 @@ const useJobData = () => {
   const deleteEmployer = async (id: string) => {
     if (
       window.confirm(
-        "Are you sure you want to delete this employer and all associated jobs?",
+        'Are you sure you want to delete this employer and all associated jobs?',
       )
     ) {
       try {
         const response = await fetchWithRetry(
           `${API_BASE_URL}/employers/${id}`,
           {
-            method: "DELETE",
+            method: 'DELETE',
           },
         );
         if (!response.ok) {
@@ -169,7 +169,7 @@ const useJobData = () => {
         );
         setJobs((prevJobs) => prevJobs.filter((job) => job.employerId !== id));
       } catch (error) {
-        console.error("Error deleting employer:", error);
+        console.error('Error deleting employer:', error);
       }
     }
   };

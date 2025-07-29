@@ -1,6 +1,6 @@
-import { Router, Request, Response, NextFunction } from "express";
-import { Pool, QueryResult } from "pg";
-import { IEmployer } from "../../packages/jobtypes/src/IEmployer";
+import { Router, Request, Response, NextFunction } from 'express';
+import { Pool, QueryResult } from 'pg';
+import { IEmployer } from '../../packages/jobtypes/src/IEmployer';
 
 /**
  * Helper function to generate a random UUID-like string (for new employers).
@@ -34,7 +34,7 @@ const createEmployersRouter = (pool: Pool) => {
    * Retrieves all employers from the database.
    */
   router.get(
-    "/",
+    '/',
     asyncHandler(async (req: Request, res: Response) => {
       const result: QueryResult = await pool.query(
         'SELECT id, name, latitude, longitude, contact_name AS "contactName", contact_phone AS "contactPhone", contact_email AS "contactEmail", website FROM employers',
@@ -49,7 +49,7 @@ const createEmployersRouter = (pool: Pool) => {
    * @param {string} req.params.id - The ID of the employer to retrieve.
    */
   router.get(
-    "/:id",
+    '/:id',
     asyncHandler(async (req: Request, res: Response) => {
       const { id } = req.params;
       const result: QueryResult = await pool.query(
@@ -57,7 +57,7 @@ const createEmployersRouter = (pool: Pool) => {
         [id],
       );
       if (result.rows.length === 0) {
-        return res.status(404).send("Employer not found");
+        return res.status(404).send('Employer not found');
       }
       res.json(result.rows[0]);
     }),
@@ -69,7 +69,7 @@ const createEmployersRouter = (pool: Pool) => {
    * @param {IEmployer} req.body - The employer object to create.
    */
   router.post(
-    "/",
+    '/',
     asyncHandler(async (req: Request<{}, {}, IEmployer>, res: Response) => {
       const {
         name,
@@ -81,7 +81,7 @@ const createEmployersRouter = (pool: Pool) => {
         website,
       } = req.body;
       const result: QueryResult = await pool.query(
-        "INSERT INTO employers (id, name, latitude, longitude, contact_name, contact_phone, contact_email, website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+        'INSERT INTO employers (id, name, latitude, longitude, contact_name, contact_phone, contact_email, website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
         [
           generateId(),
           name,
@@ -104,21 +104,11 @@ const createEmployersRouter = (pool: Pool) => {
    * @param {IEmployer} req.body - The employer object with updated data.
    */
   router.put(
-    "/:id",
-    asyncHandler(async (req: Request<{ id: string }, {}, IEmployer>, res: Response) => {
-      const { id } = req.params;
-      const {
-        name,
-        latitude,
-        longitude,
-        contactName,
-        contactPhone,
-        contactEmail,
-        website,
-      } = req.body;
-      const result: QueryResult = await pool.query(
-        "UPDATE employers SET name = $1, latitude = $2, longitude = $3, contact_name = $4, contact_phone = $5, contact_email = $6, website = $7 WHERE id = $8 RETURNING *",
-        [
+    '/:id',
+    asyncHandler(
+      async (req: Request<{ id: string }, {}, IEmployer>, res: Response) => {
+        const { id } = req.params;
+        const {
           name,
           latitude,
           longitude,
@@ -126,14 +116,26 @@ const createEmployersRouter = (pool: Pool) => {
           contactPhone,
           contactEmail,
           website,
-          id,
-        ],
-      );
-      if (result.rows.length === 0) {
-        return res.status(404).send("Employer not found");
-      }
-      res.json(result.rows[0]);
-    }),
+        } = req.body;
+        const result: QueryResult = await pool.query(
+          'UPDATE employers SET name = $1, latitude = $2, longitude = $3, contact_name = $4, contact_phone = $5, contact_email = $6, website = $7 WHERE id = $8 RETURNING *',
+          [
+            name,
+            latitude,
+            longitude,
+            contactName,
+            contactPhone,
+            contactEmail,
+            website,
+            id,
+          ],
+        );
+        if (result.rows.length === 0) {
+          return res.status(404).send('Employer not found');
+        }
+        res.json(result.rows[0]);
+      },
+    ),
   );
 
   /**
@@ -142,15 +144,15 @@ const createEmployersRouter = (pool: Pool) => {
    * @param req.params.id - The ID of the employer to delete.
    */
   router.delete(
-    "/:id",
+    '/:id',
     asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
       const { id } = req.params;
       const result: QueryResult = await pool.query(
-        "DELETE FROM employers WHERE id = $1 RETURNING *",
+        'DELETE FROM employers WHERE id = $1 RETURNING *',
         [id],
       );
       if (result.rows.length === 0) {
-        return res.status(404).send("Employer not found");
+        return res.status(404).send('Employer not found');
       }
       res.status(204).send(); // No Content
     }),

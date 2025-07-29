@@ -1,5 +1,5 @@
-import type { IJob } from "./IJob";
-import type { IEmployer } from "./IEmployer";
+import type { IJob } from './IJob';
+import type { IEmployer } from './IEmployer';
 
 /**
  * Helper function to get a random item from an array.
@@ -15,31 +15,31 @@ const getRandomItem = <T>(arr: T[]): T =>
  * @type {string[]}
  */
 const companyNames = [
-  "Tech Solutions Inc.",
-  "Global Innovations",
-  "Future Systems LLC",
-  "Apex Dynamics",
-  "Quantum Corp.",
-  "Synergy Labs",
-  "Visionary Tech",
-  "Dynamic Solutions",
-  "Pinnacle Group",
-  "Elite Innovations",
-  "Bright Minds",
-  "Creative Works",
-  "Digital Frontier",
-  "Evergreen Systems",
-  "First Class Tech",
-  "Grand Innovations",
-  "High Tech Solutions",
-  "Infinite Systems",
-  "Jumbo Corp.",
-  "Keystone Labs",
-  "Leading Edge",
-  "Modern Tech",
-  "Next Gen Systems",
-  "Optimal Solutions",
-  "Prime Innovations",
+  'Tech Solutions Inc.',
+  'Global Innovations',
+  'Future Systems LLC',
+  'Apex Dynamics',
+  'Quantum Corp.',
+  'Synergy Labs',
+  'Visionary Tech',
+  'Dynamic Solutions',
+  'Pinnacle Group',
+  'Elite Innovations',
+  'Bright Minds',
+  'Creative Works',
+  'Digital Frontier',
+  'Evergreen Systems',
+  'First Class Tech',
+  'Grand Innovations',
+  'High Tech Solutions',
+  'Infinite Systems',
+  'Jumbo Corp.',
+  'Keystone Labs',
+  'Leading Edge',
+  'Modern Tech',
+  'Next Gen Systems',
+  'Optimal Solutions',
+  'Prime Innovations',
 ];
 
 /**
@@ -47,16 +47,16 @@ const companyNames = [
  * @type {string[]}
  */
 const contactNames = [
-  "Alice Smith",
-  "Bob Johnson",
-  "Charlie Brown",
-  "Diana Prince",
-  "Eve Adams",
-  "Frank White",
-  "Grace Lee",
-  "Harry Davis",
-  "Ivy Chen",
-  "Jack Wilson",
+  'Alice Smith',
+  'Bob Johnson',
+  'Charlie Brown',
+  'Diana Prince',
+  'Eve Adams',
+  'Frank White',
+  'Grace Lee',
+  'Harry Davis',
+  'Ivy Chen',
+  'Jack Wilson',
 ];
 
 /**
@@ -65,7 +65,7 @@ const contactNames = [
  */
 export const mockEmployers: IEmployer[] = Array.from({ length: 25 }).map(
   (_, i) => {
-    const name = getRandomItem(companyNames) + " " + (i + 1);
+    const name = getRandomItem(companyNames) + ' ' + (i + 1);
     const contactName = getRandomItem(contactNames);
     return {
       id: `emp${i + 1}`,
@@ -74,16 +74,16 @@ export const mockEmployers: IEmployer[] = Array.from({ length: 25 }).map(
       longitude: parseFloat((Math.random() * (180 - -180) + -180).toFixed(4)),
       contactName,
       contactPhone: `+1-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
-      contactEmail: `${contactName.toLowerCase().replace(/ /g, ".")}}@${name
+      contactEmail: `${contactName.toLowerCase().replace(/ /g, '.')}}@${name
         .toLowerCase()
-        .replace(/ /g, "")
-        .replace(/\./g, "")
-        .replace(/inc|llc|corp/g, "")}.com`,
+        .replace(/ /g, '')
+        .replace(/\./g, '')
+        .replace(/inc|llc|corp/g, '')}.com`,
       website: `https://www.${name
         .toLowerCase()
-        .replace(/ /g, "")
-        .replace(/\./g, "")
-        .replace(/inc|llc|corp/g, "")}.com`,
+        .replace(/ /g, '')
+        .replace(/\./g, '')
+        .replace(/inc|llc|corp/g, '')}.com`,
     };
   },
 );
@@ -93,40 +93,40 @@ export const mockEmployers: IEmployer[] = Array.from({ length: 25 }).map(
  * @type {string[]}
  */
 const jobTitles = [
-  "Software Engineer",
-  "Product Manager",
-  "Data Scientist",
-  "UX Designer",
-  "DevOps Engineer",
-  "Frontend Developer",
-  "Backend Developer",
-  "Fullstack Developer",
-  "QA Engineer",
-  "Business Analyst",
-  "Project Manager",
-  "Scrum Master",
-  "Technical Writer",
-  "Cloud Engineer",
-  "Security Analyst",
+  'Software Engineer',
+  'Product Manager',
+  'Data Scientist',
+  'UX Designer',
+  'DevOps Engineer',
+  'Frontend Developer',
+  'Backend Developer',
+  'Fullstack Developer',
+  'QA Engineer',
+  'Business Analyst',
+  'Project Manager',
+  'Scrum Master',
+  'Technical Writer',
+  'Cloud Engineer',
+  'Security Analyst',
 ];
 
 /**
  * Mock data for generating realistic-looking job statuses.
  * @type {IJob['status'][]}
  */
-const jobStatuses: IJob["status"][] = [
-  "lead",
-  "applied",
-  "interview",
-  "offer",
-  "rejected",
+const jobStatuses: IJob['status'][] = [
+  'lead',
+  'applied',
+  'interview',
+  'offer',
+  'rejected',
 ];
 
 /**
  * Mock data for generating realistic-looking job commutes.
  * @type {IJob['commute'][]}
  */
-const jobCommutes: IJob["commute"][] = ["remote", "hybrid", "on-site"];
+const jobCommutes: IJob['commute'][] = ['remote', 'hybrid', 'on-site'];
 
 /**
  * Generates 50 mock jobs.

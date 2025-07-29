@@ -38,7 +38,7 @@ export async function fetchWithRetry(
           );
         }
 
-        const retryAfter = response.headers.get("Retry-After");
+        const retryAfter = response.headers.get('Retry-After');
         if (retryAfter) {
           // Retry-After can be a date or a number of seconds
           const parsedRetryAfter = parseInt(retryAfter, 10);
@@ -80,5 +80,5 @@ export async function fetchWithRetry(
       await new Promise((resolve) => setTimeout(resolve, finalDelay));
     }
   }
-  throw new Error("Max retries reached without successful response.");
+  throw new Error('Max retries reached without successful response.');
 }

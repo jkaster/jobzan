@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 /**
  * Represents the user's geographical location.
@@ -19,7 +19,7 @@ const useGeolocation = () => {
 
   useEffect(() => {
     if (!navigator.geolocation) {
-      setError("Geolocation is not supported by your browser");
+      setError('Geolocation is not supported by your browser');
       return;
     }
 

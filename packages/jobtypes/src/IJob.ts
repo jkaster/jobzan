@@ -7,8 +7,8 @@ export interface IJob {
   employerId: string;
   title: string;
   salary: number;
-  status: "lead" | "applied" | "interview" | "offer" | "rejected";
-  commute: "remote" | "hybrid" | "on-site";
+  status: 'lead' | 'applied' | 'interview' | 'offer' | 'rejected';
+  commute: 'remote' | 'hybrid' | 'on-site';
   description: string;
   notes: string;
   jobDescriptionLink?: string;

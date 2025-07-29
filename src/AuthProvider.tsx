@@ -26,7 +26,11 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
         const decoded: any = jwtDecode(storedToken);
         // Check if token is expired
         if (decoded.exp * 1000 > Date.now()) {
-          setUser({ id: decoded.id, email: decoded.email, displayName: decoded.displayName });
+          setUser({
+            id: decoded.id,
+            email: decoded.email,
+            displayName: decoded.displayName,
+          });
           setToken(storedToken);
         } else {
           localStorage.removeItem('jwtToken');
@@ -45,7 +49,11 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   const login = (jwtToken: string) => {
     localStorage.setItem('jwtToken', jwtToken);
     const decoded: any = jwtDecode(jwtToken);
-    setUser({ id: decoded.id, email: decoded.email, displayName: decoded.displayName });
+    setUser({
+      id: decoded.id,
+      email: decoded.email,
+      displayName: decoded.displayName,
+    });
     setToken(jwtToken);
   };
 
@@ -63,7 +71,9 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ user, token, login, logout, isAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );

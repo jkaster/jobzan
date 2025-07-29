@@ -10,7 +10,10 @@ export const handlers = [
     const attempt = Number(url.searchParams.get('attempt')) || 1;
 
     if (attempt < 3) {
-      return HttpResponse.text('Service Unavailable', { status: 503, headers: { 'Retry-After': '1' } });
+      return HttpResponse.text('Service Unavailable', {
+        status: 503,
+        headers: { 'Retry-After': '1' },
+      });
     } else {
       return HttpResponse.text('Success after retries', { status: 200 });
     }
