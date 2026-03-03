@@ -1,4 +1,4 @@
-import React, { useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { AuthContext, type IUser } from './context/AuthContext';
 
@@ -15,7 +15,7 @@ interface IAuthProviderProps {
  * Manages user login, logout, and authentication state.
  * @component
  */
-export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
+export const AuthProvider = ({ children }: IAuthProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
