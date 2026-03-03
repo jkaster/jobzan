@@ -2,6 +2,22 @@ import { useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { AuthContext, type IUser } from './context/AuthContext';
 
+interface IJwtPayload {
+  id: string;
+  email: string;
+  displayName?: string;
+  exp: number;
+}
+
+const decodeUser = (token: string): IUser => {
+  const decoded = jwtDecode<IJwtPayload>(token);
+  return {
+    id: decoded.id,
+    email: decoded.email,
+    displayName: decoded.displayName,
+  };
+};
+
 /**
  * Props for the AuthProvider component.
  * @interface
@@ -23,14 +39,9 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
     const storedToken = localStorage.getItem('jwtToken');
     if (storedToken) {
       try {
-        const decoded: any = jwtDecode(storedToken);
-        // Check if token is expired
+        const decoded = jwtDecode<IJwtPayload>(storedToken);
         if (decoded.exp * 1000 > Date.now()) {
-          setUser({
-            id: decoded.id,
-            email: decoded.email,
-            displayName: decoded.displayName,
-          });
+          setUser(decodeUser(storedToken));
           setToken(storedToken);
         } else {
           localStorage.removeItem('jwtToken');
@@ -48,12 +59,7 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
    */
   const login = (jwtToken: string) => {
     localStorage.setItem('jwtToken', jwtToken);
-    const decoded: any = jwtDecode(jwtToken);
-    setUser({
-      id: decoded.id,
-      email: decoded.email,
-      displayName: decoded.displayName,
-    });
+    setUser(decodeUser(jwtToken));
     setToken(jwtToken);
   };
 

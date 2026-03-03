@@ -70,21 +70,12 @@ const createJobsRouter = (pool: Pool) => {
    */
   router.post(
     '/',
-    asyncHandler(async (req: Request<{}, {}, IJob>, res: Response) => {
-      const {
-        employerId,
-        title,
-        salary,
-        status,
-        commute,
-        description,
-        notes,
-        jobDescriptionLink,
-      } = req.body;
-      const result: QueryResult = await pool.query(
-        'INSERT INTO jobs (id, employer_id, title, salary, status, commute, description, notes, job_description_link) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-        [
-          generateId(),
+    asyncHandler(
+      async (
+        req: Request<Record<string, never>, Record<string, never>, IJob>,
+        res: Response,
+      ) => {
+        const {
           employerId,
           title,
           salary,
@@ -93,10 +84,24 @@ const createJobsRouter = (pool: Pool) => {
           description,
           notes,
           jobDescriptionLink,
-        ],
-      );
-      res.status(201).json(result.rows[0]);
-    }),
+        } = req.body;
+        const result: QueryResult = await pool.query(
+          'INSERT INTO jobs (id, employer_id, title, salary, status, commute, description, notes, job_description_link) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+          [
+            generateId(),
+            employerId,
+            title,
+            salary,
+            status,
+            commute,
+            description,
+            notes,
+            jobDescriptionLink,
+          ],
+        );
+        res.status(201).json(result.rows[0]);
+      },
+    ),
   );
 
   /**
@@ -108,7 +113,10 @@ const createJobsRouter = (pool: Pool) => {
   router.put(
     '/:id',
     asyncHandler(
-      async (req: Request<{ id: string }, {}, IJob>, res: Response) => {
+      async (
+        req: Request<{ id: string }, Record<string, never>, IJob>,
+        res: Response,
+      ) => {
         const { id } = req.params;
         const {
           employerId,

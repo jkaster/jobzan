@@ -70,20 +70,12 @@ const createEmployersRouter = (pool: Pool) => {
    */
   router.post(
     '/',
-    asyncHandler(async (req: Request<{}, {}, IEmployer>, res: Response) => {
-      const {
-        name,
-        latitude,
-        longitude,
-        contactName,
-        contactPhone,
-        contactEmail,
-        website,
-      } = req.body;
-      const result: QueryResult = await pool.query(
-        'INSERT INTO employers (id, name, latitude, longitude, contact_name, contact_phone, contact_email, website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-        [
-          generateId(),
+    asyncHandler(
+      async (
+        req: Request<Record<string, never>, Record<string, never>, IEmployer>,
+        res: Response,
+      ) => {
+        const {
           name,
           latitude,
           longitude,
@@ -91,10 +83,23 @@ const createEmployersRouter = (pool: Pool) => {
           contactPhone,
           contactEmail,
           website,
-        ],
-      );
-      res.status(201).json(result.rows[0]);
-    }),
+        } = req.body;
+        const result: QueryResult = await pool.query(
+          'INSERT INTO employers (id, name, latitude, longitude, contact_name, contact_phone, contact_email, website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+          [
+            generateId(),
+            name,
+            latitude,
+            longitude,
+            contactName,
+            contactPhone,
+            contactEmail,
+            website,
+          ],
+        );
+        res.status(201).json(result.rows[0]);
+      },
+    ),
   );
 
   /**
@@ -106,7 +111,10 @@ const createEmployersRouter = (pool: Pool) => {
   router.put(
     '/:id',
     asyncHandler(
-      async (req: Request<{ id: string }, {}, IEmployer>, res: Response) => {
+      async (
+        req: Request<{ id: string }, Record<string, never>, IEmployer>,
+        res: Response,
+      ) => {
         const { id } = req.params;
         const {
           name,
