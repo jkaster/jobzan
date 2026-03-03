@@ -16,6 +16,14 @@ dist-ssr
 *.js.map
 *.local
 
+# AI agent/tool directories
+.agent
+.claude
+.gemini
+.serena
+.sonde
+_bmad
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
