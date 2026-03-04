@@ -20,6 +20,8 @@ dist-ssr
 .agent
 .claude
 .gemini
+.github/agents
+.github/prompts
 .serena
 .sonde
 _bmad
