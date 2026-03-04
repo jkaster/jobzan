@@ -1,5 +1,45 @@
 # Changelog
 
+## 2026-03-02
+
+### Changed
+
+- Upgraded all Node dependencies to latest versions across the monorepo.
+- Removed deprecated `React.FC` pattern from `Login.tsx`, `AuthProvider.tsx`, and `AnalyticsDashboard.tsx`.
+- Removed unused `React` default imports where no longer needed.
+- Removed redundant `@types/react-router-dom` (React Router v7 ships its own types).
+- Moved server-only dependencies (`express-session`, `passport`, `passport-github2`, `passport-google-oauth20`, `jsonwebtoken`) from root to `server/package.json`.
+
+### Upgraded (Root)
+
+- react, react-dom: 19.1 → 19.2
+- react-router-dom: 7.6 → 7.13
+- react-i18next: 15.5 → 16.5 (major)
+- @mui/material, @mui/icons-material: 7.1 → 7.3
+- @mui/lab: 7.0.0-beta.14 → 7.0.1-beta.22
+- i18next: 25.3 → 25.8
+- typescript: 5.8 → 5.9
+- vite: 7.0 → 7.3
+- @vitejs/plugin-react: 4.5 → 5.1 (major)
+- vitest, @vitest/ui: 3.2 → 4.0 (major)
+- prettier: 3.6 → 3.8
+- typescript-eslint: 8.34 → 8.56
+- msw: 2.10 → 2.12
+- @testing-library/jest-dom: 6.6 → 6.9
+- @testing-library/react: 16.3.0 → 16.3.2
+- @types/react: 19.1 → 19.2
+- @types/react-dom: 19.1 → 19.2
+
+### Upgraded (Server)
+
+- express: 5.1 → 5.2
+- cors: 2.8.5 → 2.8.6
+- dotenv: 17.0 → 17.3
+- pg: 8.16 → 8.19
+- typescript: 5.8 → 5.9
+- @types/express: 5.0.3 → 5.0.6
+- @types/pg: 8.15 → 8.18
+
 ## 2025-07-06
 
 ### Added

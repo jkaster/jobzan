@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Container, Typography, Box } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -9,7 +8,7 @@ import { useTranslation } from 'react-i18next';
  * Provides options to sign in with Google or GitHub.
  * @component
  */
-const Login: React.FC = () => {
+const Login = () => {
   const { t } = useTranslation();
 
   /**

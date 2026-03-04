@@ -6,7 +6,7 @@ import { useState, useCallback } from 'react';
  * @param initialValues - The initial values for the form fields.
  * @returns An object containing the form data, a handleChange function, and a setFormData function.
  */
-export const useForm = <T extends Record<string, any>>(initialValues: T) => {
+export const useForm = <T extends object>(initialValues: T) => {
   const [formData, setFormData] = useState<T>(initialValues);
 
   /**

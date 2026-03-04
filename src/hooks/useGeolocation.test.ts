@@ -37,7 +37,9 @@ describe('useGeolocation', () => {
   });
 
   it("returns an error when the browser's geolocation API is not available", () => {
-    vi.spyOn(navigator, 'geolocation', 'get').mockReturnValueOnce(null as any);
+    vi.spyOn(navigator, 'geolocation', 'get').mockReturnValueOnce(
+      null as unknown as Geolocation,
+    );
     const { result } = renderHook(() => useGeolocation());
     expect(result.current.error).toBe(
       'Geolocation is not supported by your browser',
